@@ -4,6 +4,7 @@ using Exercises.Application.Services.Exercises;
 using Exercises.Application.Services.Exercises.Operations.ExerciseCreator;
 using Exercises.Application.Services.Exercises.Operations.ExerciseRemover;
 using Exercises.Application.Services.Exercises.Operations.ExerciseUpdator;
+using Exercises.Application.Services.Exercises.Query.ExerciseByIdQuery;
 
 namespace Exercises.Application
 {
@@ -17,6 +18,9 @@ namespace Exercises.Application
             services.AddScoped<IExerciseCreator, ExerciseCreator>();
             services.AddScoped<IExerciseUpdator, ExerciseUpdator>();
             services.AddScoped<IExerciseRemover, ExerciseRemover>();
+
+            services.AddScoped<IExerciseByIdQuery, ExerciseByIdQuery>();
+            services.Decorate<IExerciseByIdQuery, ExerciseByIdQueryCached>();
 
             return services;
         }

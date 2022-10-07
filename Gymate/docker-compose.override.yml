@@ -1,8 +1,18 @@
 version: '3.4'
 
 services:
-  exercisedb:
-    container_name: exercisedb
+  portainer:
+    container_name: portainer
+    restart: always
+    ports:
+      - "8080:8000"
+      - "9000:9000"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+
+  gymatedb:
+    container_name: gymatedb
     environment:
         SA_PASSWORD: "SwN12345678"
         ACCEPT_EULA: "Y"
@@ -10,12 +20,20 @@ services:
     ports:
         - "1433:1433"
 
+  cachedb:
+    container_name: cachedb
+    restart: always
+    ports:
+      - '6379:6379'
+
   exercises.api:
     container_name: exercises.api
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - "ConnectionStrings:DefaultConnection=Server=exercisedb;Database=ExerciseDb;User Id=sa;Password=SwN12345678;"
+      - "ConnectionStrings:DefaultConnection=Server=gymatedb;Database=GymateDb;User Id=sa;Password=SwN12345678;"
+      - "ConnectionStrings:RedisConnection=cachedb:6379"
     depends_on:
-      - exercisedb
+      - gymatedb
+      - cachedb
     ports:
       - "8000:80"

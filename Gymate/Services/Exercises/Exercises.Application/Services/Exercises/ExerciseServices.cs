@@ -4,6 +4,7 @@ using Exercises.Application.Models.Exercise;
 using Exercises.Application.Services.Exercises.Operations.ExerciseCreator;
 using Exercises.Application.Services.Exercises.Operations.ExerciseRemover;
 using Exercises.Application.Services.Exercises.Operations.ExerciseUpdator;
+using Exercises.Application.Services.Exercises.Query.ExerciseByIdQuery;
 
 namespace Exercises.Application.Services.Exercises
 {
@@ -14,16 +15,18 @@ namespace Exercises.Application.Services.Exercises
         private readonly IExerciseCreator _exerciseCreator;
         private readonly IExerciseUpdator _exerciseUpdator;
         private readonly IExerciseRemover _exerciseRemover;
+        private readonly IExerciseByIdQuery _exerciseByIdQuery;
 
         public ExerciseServices(IMapper mapper, IExerciseRepository repository,
-            IExerciseCreator exerciseCreator, IExerciseUpdator exerciseUpdator, 
-            IExerciseRemover exerciseRemover)
+            IExerciseCreator exerciseCreator, IExerciseUpdator exerciseUpdator,
+            IExerciseRemover exerciseRemover, IExerciseByIdQuery exerciseByIdQuery)
         {
             _mapper = mapper;
             _repository = repository;
             _exerciseCreator = exerciseCreator;
             _exerciseUpdator = exerciseUpdator;
             _exerciseRemover = exerciseRemover;
+            _exerciseByIdQuery = exerciseByIdQuery;
         }
 
         public async Task<IEnumerable<ExerciseDetailsModel>> GetAllExercisesAsync()
@@ -34,8 +37,7 @@ namespace Exercises.Application.Services.Exercises
 
         public async Task<ExerciseDetailsModel?> GetExerciseByIdAsync(int id)
         {
-            var exercise = await _repository.GetExerciseByIdAsync(id);
-            return _mapper.Map<ExerciseDetailsModel>(exercise);
+            return await _exerciseByIdQuery.RunAsync(id);
         }
 
         public async Task<IEnumerable<ExerciseDetailsModel>> GetExercisesByNameAsync(string name)
