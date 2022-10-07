@@ -1,0 +1,21 @@
+version: '3.4'
+
+services:
+  exercisedb:
+    container_name: exercisedb
+    environment:
+        SA_PASSWORD: "SwN12345678"
+        ACCEPT_EULA: "Y"
+    restart: always
+    ports:
+        - "1433:1433"
+
+  exercises.api:
+    container_name: exercises.api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "ConnectionStrings:DefaultConnection=Server=exercisedb;Database=ExerciseDb;User Id=sa;Password=SwN12345678;"
+    depends_on:
+      - exercisedb
+    ports:
+      - "8000:80"
