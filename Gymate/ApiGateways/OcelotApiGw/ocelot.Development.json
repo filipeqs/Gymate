@@ -1,0 +1,42 @@
+{
+  "Routes": [
+    //Exercises.Api
+    {
+      "DownstreamPathTemplate": "/api/v1/Exercises",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "exercises.api",
+          "Port": "80"
+        }
+      ],
+      "UpstreamPathTemplate": "/Exercises",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT" ],
+      "FileCacheOptions": { "TtlSeconds": 30 }
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1/Exercises/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "exercises.api",
+          "Port": "80"
+        }
+      ],
+      "UpstreamPathTemplate": "/Exercises/{id}",
+      "UpstreamHttpMethod": [ "GET", "DELETE" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1/Exercises/name/{exerciseName}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "exercises.api",
+          "Port": "80"
+        }
+      ],
+      "UpstreamPathTemplate": "/Exercises/name/{exerciseName}",
+      "UpstreamHttpMethod": [ "GET" ]
+    }
+  ]
+}

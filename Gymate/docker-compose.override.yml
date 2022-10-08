@@ -11,14 +11,23 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - portainer_data:/data
 
+  ocelotapigw:
+    container_name: ocelotapigw
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    depends_on:
+      - exercises.api
+    ports:
+      - "8010:80"
+
   gymatedb:
     container_name: gymatedb
     environment:
-        SA_PASSWORD: "SwN12345678"
-        ACCEPT_EULA: "Y"
+      SA_PASSWORD: "SwN12345678"
+      ACCEPT_EULA: "Y"
     restart: always
     ports:
-        - "1433:1433"
+      - "1433:1433"
 
   cachedb:
     container_name: cachedb

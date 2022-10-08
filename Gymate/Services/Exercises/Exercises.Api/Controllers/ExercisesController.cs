@@ -24,7 +24,7 @@ namespace Exercises.Api.Controllers
         }
 
         [HttpGet]
-        [Route("id/{id}", Name = "GetExerciseById")]
+        [Route("{id}", Name = "GetExerciseById")]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType(typeof(ExerciseDetailsModel), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<ExerciseDetailsModel>> GetExerciseById(int id)

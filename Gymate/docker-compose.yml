@@ -4,6 +4,12 @@ services:
   portainer:
     image: portainer/portainer-ce
 
+  ocelotapigw:
+    image: ${DOCKER_REGISTRY-}ocelotapigw
+    build:
+      context: .
+      dockerfile: ApiGateways/OcelotApiGw/Dockerfile
+
   gymatedb:
     image: mcr.microsoft.com/mssql/server:2022-latest
 
