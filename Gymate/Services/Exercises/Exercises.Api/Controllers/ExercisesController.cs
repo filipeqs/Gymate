@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Exercises.Application.Models.Exercise;
 using Exercises.Application.Services.Exercises;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Exercises.Api.Controllers
 {
@@ -45,6 +46,7 @@ namespace Exercises.Api.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType(typeof(ExerciseDetailsModel), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<ExerciseDetailsModel>> CreateExercise([FromBody] ExerciseCreateModel exerciseCreateModel)

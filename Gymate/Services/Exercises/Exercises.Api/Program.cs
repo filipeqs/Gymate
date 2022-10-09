@@ -17,6 +17,14 @@ builder.Services.AddSwaggerGen(c =>
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "Exercise.API", Version = "v1" });
 });
 
+builder.Services.AddAuthentication("Bearer")
+.AddIdentityServerAuthentication("Bearer", options =>
+{
+    options.ApiName = "exercisesAPI";
+    options.Authority = "http://localhost:8050";
+    options.RequireHttpsMetadata = false;
+});
+
 builder.Services.AddApplicationServices();
 builder.Services.AddInfrastructureServices(builder.Configuration);
 
@@ -33,6 +41,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseMiddleware<ExceptionMiddleware>();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
