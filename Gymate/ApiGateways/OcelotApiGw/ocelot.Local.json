@@ -1,6 +1,6 @@
 {
   "Routes": [
-    //Exercises.Api
+    // Exercises Api
     {
       "DownstreamPathTemplate": "/api/v1/Exercises",
       "DownstreamScheme": "http",
@@ -11,7 +11,36 @@
         }
       ],
       "UpstreamPathTemplate": "/Exercises",
-      "UpstreamHttpMethod": [ "GET", "POST", "PUT" ],
+      "UpstreamHttpMethod": [ "GET" ],
+      "FileCacheOptions": { "TtlSeconds": 30 }
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1/Exercises",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": "8000"
+        }
+      ],
+      "UpstreamPathTemplate": "/Exercises",
+      "UpstreamHttpMethod": [ "POST", "PUT" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "ExercisesApiKey",
+        "AllowedScopes": []
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1/Exercises/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": "8000"
+        }
+      ],
+      "UpstreamPathTemplate": "/Exercises/{id}",
+      "UpstreamHttpMethod": [ "GET" ],
       "FileCacheOptions": { "TtlSeconds": 30 }
     },
     {
@@ -24,7 +53,11 @@
         }
       ],
       "UpstreamPathTemplate": "/Exercises/{id}",
-      "UpstreamHttpMethod": [ "GET", "DELETE" ]
+      "UpstreamHttpMethod": [ "DELETE" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "ExercisesApiKey",
+        "AllowedScopes": []
+      }
     },
     {
       "DownstreamPathTemplate": "/api/v1/Exercises/name/{exerciseName}",
@@ -36,6 +69,44 @@
         }
       ],
       "UpstreamPathTemplate": "/Exercises/name/{exerciseName}",
+      "UpstreamHttpMethod": [ "GET" ],
+      "FileCacheOptions": { "TtlSeconds": 30 }
+    },
+    // IdentityServer Api
+    {
+      "DownstreamPathTemplate": "/api/v1/Accounts",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": "8050"
+        }
+      ],
+      "UpstreamPathTemplate": "/Accounts",
+      "UpstreamHttpMethod": [ "POST" ]
+    },
+    {
+      "DownstreamPathTemplate": "/connect/token",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": "8050"
+        }
+      ],
+      "UpstreamPathTemplate": "/Accounts/token",
+      "UpstreamHttpMethod": [ "POST" ]
+    },
+    {
+      "DownstreamPathTemplate": "/.well-known/openid-configuration",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": "8050"
+        }
+      ],
+      "UpstreamPathTemplate": "/Accounts/disco",
       "UpstreamHttpMethod": [ "GET" ]
     }
   ]

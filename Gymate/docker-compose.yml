@@ -16,6 +16,12 @@ services:
   cachedb:
     image: redis:alpine
 
+  identityserver.api:
+    image: ${DOCKER_REGISTRY-}identityserverapi
+    build:
+      context: .
+      dockerfile: Services\IdentityServer\IdentityServer.Api\Dockerfile
+
   exercises.api:
     image: ${DOCKER_REGISTRY-}exercisesapi
     build:

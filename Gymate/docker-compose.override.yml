@@ -35,6 +35,16 @@ services:
     ports:
       - '6379:6379'
 
+  identityserver.api:
+    container_name: identityserver.api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "ConnectionStrings:DefaultConnection=Server=gymatedb;Database=GymateIdentityDb;User Id=sa;Password=SwN12345678;"
+    depends_on:
+      - gymatedb
+    ports:
+      - "8050:80"
+
   exercises.api:
     container_name: exercises.api
     environment:

@@ -8,7 +8,7 @@ using System.Security.Claims;
 namespace IdentityServer.Api.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/v1/[controller]")]
     public class AccountsController : ControllerBase
     {
         private readonly UserManager<ApplicationUser> _userManager;
@@ -44,7 +44,8 @@ namespace IdentityServer.Api.Controllers
                 new Claim(JwtClaimTypes.GivenName, registerModel.FirstName),
                 new Claim(JwtClaimTypes.FamilyName, registerModel.LastName),
                 new Claim(JwtClaimTypes.Email, registerModel.Email),
-                new Claim(JwtClaimTypes.Role, "user")
+                new Claim(JwtClaimTypes.Role, "User"),
+                new Claim(JwtClaimTypes.Role, "Admin")
             });
             if (!result.Succeeded)
                 return BadRequest(result.Errors);

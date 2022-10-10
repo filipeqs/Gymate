@@ -46,8 +46,10 @@ namespace Exercises.Api.Controllers
         }
 
         [HttpPost]
-        [Authorize]
+        [Authorize(Roles = "Admin")]
+        [ProducesResponseType((int)HttpStatusCode.Forbidden)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType(typeof(ExerciseDetailsModel), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<ExerciseDetailsModel>> CreateExercise([FromBody] ExerciseCreateModel exerciseCreateModel)
         {
@@ -59,9 +61,12 @@ namespace Exercises.Api.Controllers
         }
 
         [HttpPut]
+        [Authorize(Roles = "Admin")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        [ProducesResponseType((int)HttpStatusCode.Forbidden)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         public async Task<IActionResult> UpdateExercise([FromBody] ExerciseUpdateModel exerciseUpdateModel)
         {
             var response = await _exerciseServices.UpdateExerciseAsync(exerciseUpdateModel);
@@ -72,8 +77,11 @@ namespace Exercises.Api.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.Forbidden)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         public async Task<IActionResult> DeleteExercise(int id)
         {
             var response = await _exerciseServices.DeleteExerciseAsync(id);
