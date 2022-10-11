@@ -8,7 +8,5 @@ namespace Exercises.Application.Services.Exercises.Operations.ExerciseRemover
         {
             IsSuccess = false;
         }
-
-        public int ErrorStatusCode { get; set; }
     }
 }

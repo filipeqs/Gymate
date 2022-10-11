@@ -5,17 +5,14 @@ using Exercises.Application.Models.Exercise;
 
 namespace Exercises.Application.Services.Exercises.Operations.ExerciseCreator
 {
-    public class ExerciseCreator : IExerciseCreator
+    public class ExerciseCreator : ExerciseOperatorBase, IExerciseCreator
     {
-        private readonly IMapper _mapper;
-        private readonly IExerciseRepository _repository;
         private readonly ExerciseCreateResponse _response = new();
         private Exercise? _exercise;
 
-        public ExerciseCreator(IMapper mapper, IExerciseRepository repository)
+        public ExerciseCreator(IMapper mapper, IExerciseRepository repository) 
+            : base(mapper, repository)
         {
-            _mapper = mapper;
-            _repository = repository;
         }
 
         public async Task<ExerciseCreateResponse> RunAsync(ExerciseCreateModel exerciseCreateModel)
@@ -23,9 +20,12 @@ namespace Exercises.Application.Services.Exercises.Operations.ExerciseCreator
             _exercise = await CreateExercise(exerciseCreateModel);
 
             if (_response.IsSuccess)
-                BuildSuccessResponse();
+            {
+                _response.BuildSuccessResponse();
+                _response.ExerciseDetailsModel = _mapper.Map<ExerciseDetailsModel>(_exercise);
+            }
             else
-               BuildErrorResponse();
+                _response.BuildBadRequestErrorResponse("Failed to create exercise");
 
             return _response;
         }
@@ -39,19 +39,5 @@ namespace Exercises.Application.Services.Exercises.Operations.ExerciseCreator
 
             return exercise;
         }
-
-        private void BuildSuccessResponse()
-        {
-            _response.IsSuccess = true;
-            _response.ExerciseDetailsModel = _mapper.Map<ExerciseDetailsModel>(_exercise);
-        }
-
-        private void BuildErrorResponse()
-        {
-            _response.ErrorMessage = "Failed to create exercise";
-        }
-
-        private async Task<bool> SavedSuccessfully() =>
-            await _repository.SaveAsync();
     }
 }

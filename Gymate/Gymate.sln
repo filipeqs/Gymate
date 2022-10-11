@@ -23,7 +23,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OcelotApiGw", "ApiGateways\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IdentityServer", "IdentityServer", "{D80BAF7A-A4A4-4709-BB0E-85897D624D2B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentityServer.Api", "Services\IdentityServer\IdentityServer.Api\IdentityServer.Api.csproj", "{69EE0977-C523-4E38-8E78-00C98BCA4437}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentityServer.Api", "Services\IdentityServer\IdentityServer.Api\IdentityServer.Api.csproj", "{69EE0977-C523-4E38-8E78-00C98BCA4437}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8D83594B-AC7E-4F62-87AA-81A575C7DA0C}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
