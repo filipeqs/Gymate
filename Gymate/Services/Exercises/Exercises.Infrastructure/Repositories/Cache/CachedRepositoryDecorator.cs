@@ -1,14 +1,13 @@
 ﻿using System.Text.Json;
-using Exercises.Domain.Entities;
 using Microsoft.Extensions.Caching.Distributed;
 
 namespace Exercises.Infrastructure.Repositories.Cache
 {
-    public class CachedRepository<T> : ICachedRepository<T> where T : class
+    public class CachedRepositoryDecorator<T> : ICachedRepositoryDecorator<T> where T : class
     {
         private readonly IDistributedCache _redisCache;
 
-        public CachedRepository(IDistributedCache redisCache)
+        public CachedRepositoryDecorator(IDistributedCache redisCache)
         {
             _redisCache = redisCache;
         }

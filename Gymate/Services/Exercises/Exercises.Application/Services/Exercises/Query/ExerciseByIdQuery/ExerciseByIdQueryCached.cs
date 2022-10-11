@@ -6,10 +6,10 @@ namespace Exercises.Application.Services.Exercises.Query.ExerciseByIdQuery
     public class ExerciseByIdQueryCached : IExerciseByIdQuery
     {
         private readonly IExerciseByIdQuery _exerciseByIdQuery;
-        private readonly ICachedRepository<ExerciseDetailsModel> _cachedRepository;
+        private readonly ICachedRepositoryDecorator<ExerciseDetailsModel> _cachedRepository;
 
         public ExerciseByIdQueryCached(IExerciseByIdQuery exerciseByIdQuery, 
-            ICachedRepository<ExerciseDetailsModel> cachedRepository)
+            ICachedRepositoryDecorator<ExerciseDetailsModel> cachedRepository)
         {
             _exerciseByIdQuery = exerciseByIdQuery;
             _cachedRepository = cachedRepository;

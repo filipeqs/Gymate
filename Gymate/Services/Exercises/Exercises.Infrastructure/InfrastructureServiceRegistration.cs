@@ -23,7 +23,7 @@ namespace Exercises.Infrastructure
             });
 
             services.AddScoped<IExerciseRepository, ExerciseRepository>();
-            services.AddScoped(typeof(ICachedRepository<>), typeof(CachedRepository<>));
+            services.AddScoped(typeof(ICachedRepositoryDecorator<>), typeof(CachedRepositoryDecorator<>));
 
             return services;
         }
