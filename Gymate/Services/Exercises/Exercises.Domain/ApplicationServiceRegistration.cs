@@ -9,7 +9,7 @@ namespace Exercises.Domain
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
             services.AddAutoMapper(typeof(MappingProfile).Assembly);
-            services.AddMediatR(typeof(MediatREntryPoint).Assembly);
+            services.AddMediatR(typeof(MediatorEntryPoint).Assembly);
 
             return services;
         }

@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace IdentityServer.Api.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+    public class IdentityContext : IdentityDbContext<ApplicationUser>
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
+        public IdentityContext(DbContextOptions<IdentityContext> options) : base(options)
         {
         }
     }
