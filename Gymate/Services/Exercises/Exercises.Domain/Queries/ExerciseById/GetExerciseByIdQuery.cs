@@ -3,9 +3,9 @@ using MediatR;
 
 namespace Exercises.Domain.Queries.ExerciseById
 {
-    public class ExerciseByIdQuery : IRequest<ExerciseDetailsDto>
+    public class GetExerciseByIdQuery : IRequest<ExerciseDetailsDto>
     {
-        public ExerciseByIdQuery(int id)
+        public GetExerciseByIdQuery(int id)
         {
             Id = id;
         }

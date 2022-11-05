@@ -37,7 +37,7 @@ namespace Exercises.Api.Controllers
         [ProducesResponseType(typeof(ExerciseDetailsDto), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<ExerciseDetailsDto>> GetExerciseById(int id)
         {
-            var exercise = await _mediator.Send(new ExerciseByIdQuery(id));
+            var exercise = await _mediator.Send(new GetExerciseByIdQuery(id));
             if (ExerciseNotFound(exercise))
                 return NotFound($"Exercise with id {id} not found.");
 
