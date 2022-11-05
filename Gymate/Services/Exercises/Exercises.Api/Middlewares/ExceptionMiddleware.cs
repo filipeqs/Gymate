@@ -1,4 +1,4 @@
-﻿using Exercises.Application.Models;
+﻿using Exercises.Domain.Models;
 using System.Net;
 
 namespace Exercises.Api.Middlewares

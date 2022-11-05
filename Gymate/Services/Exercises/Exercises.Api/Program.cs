@@ -1,4 +1,4 @@
-using Exercises.Application;
+using Exercises.Domain;
 using Microsoft.OpenApi.Models;
 using Exercises.Api.Extensions;
 using Exercises.Infrastructure;
@@ -33,7 +33,7 @@ var app = builder.Build();
 app.MigrateDatabase<ExerciseContext>();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment() || app.Environment.IsLocal())
 {
     app.UseSwagger();
     app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Exercise.API v1"));

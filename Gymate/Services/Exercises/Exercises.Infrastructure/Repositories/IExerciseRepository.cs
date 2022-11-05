@@ -1,11 +1,11 @@
-﻿using Exercises.Domain.Entities;
+﻿using Exercises.Core.Entities;
 
 namespace Exercises.Infrastructure.Repositories
 {
     public interface IExerciseRepository
     {
         Task<IEnumerable<Exercise>> GetAllExercisesAsync();
-        Task<Exercise?> GetExerciseByIdAsync(int id);
+        Task<Exercise> GetExerciseByIdAsync(int id);
         Task<IEnumerable<Exercise>> GetExercisesByNameAsync(string name);
         Task CreateExerciseAsync(Exercise exercise);
         void UpdateExercise(Exercise exercise);

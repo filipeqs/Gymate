@@ -1,36 +1,43 @@
-﻿using System.Net;
-using Microsoft.AspNetCore.Mvc;
-using Exercises.Application.Models.Exercise;
-using Exercises.Application.Services.Exercises;
+﻿using Exercises.Domain.Commands.CreateExercise;
+using Exercises.Domain.Commands.DeleteExercise;
+using Exercises.Domain.Commands.UpdateExercise;
+using Exercises.Domain.Models.Exercise;
+using Exercises.Domain.Queries.ExerciseById;
+using Exercises.Domain.Queries.GetExerciseList;
+using Exercises.Domain.Queries.GetExercisesByName;
+using Exercises.Domain.Services.Exercises;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace Exercises.Api.Controllers
 {
     [Route("api/v1/[controller]")]
     public class ExercisesController : BaseController
     {
-        private readonly IExerciseServices _exerciseServices;
+        private readonly IMediator _mediator;
 
-        public ExercisesController(IExerciseServices exerciseServices)
+        public ExercisesController(IMediator mediator)
         {
-            _exerciseServices = exerciseServices;
+            _mediator = mediator;
         }
 
         [HttpGet]
-        [ProducesResponseType(typeof(IEnumerable<ExerciseDetailsModel>), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<IEnumerable<ExerciseDetailsModel>>> GetAllExercises()
+        [ProducesResponseType(typeof(IEnumerable<ExerciseDetailsDto>), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<IEnumerable<ExerciseDetailsDto>>> GetAllExercises()
         {
-            var exercises = await _exerciseServices.GetAllExercisesAsync();
+            var exercises = await _mediator.Send(new GetExerciseListQuery());
             return Ok(exercises);
         }
 
         [HttpGet]
         [Route("{id}", Name = "GetExerciseById")]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        [ProducesResponseType(typeof(ExerciseDetailsModel), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<ExerciseDetailsModel>> GetExerciseById(int id)
+        [ProducesResponseType(typeof(ExerciseDetailsDto), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<ExerciseDetailsDto>> GetExerciseById(int id)
         {
-            var exercise = await _exerciseServices.GetExerciseByIdAsync(id);
+            var exercise = await _mediator.Send(new ExerciseByIdQuery(id));
             if (ExerciseNotFound(exercise))
                 return NotFound($"Exercise with id {id} not found.");
 
@@ -38,10 +45,10 @@ namespace Exercises.Api.Controllers
         }
 
         [HttpGet("name/{exerciseName}")]
-        [ProducesResponseType(typeof(IEnumerable<ExerciseDetailsModel>), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<IEnumerable<ExerciseDetailsModel>>> GetExercisesByName(string exerciseName)
+        [ProducesResponseType(typeof(IEnumerable<ExerciseDetailsDto>), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<IEnumerable<ExerciseDetailsDto>>> GetExercisesByName(string exerciseName)
         {
-            var exercies = await _exerciseServices.GetExercisesByNameAsync(exerciseName);
+            var exercies = await _mediator.Send(new GetExercisesByNameQuery(exerciseName));
             return Ok(exercies);
         }
 
@@ -50,14 +57,14 @@ namespace Exercises.Api.Controllers
         [ProducesResponseType((int)HttpStatusCode.Forbidden)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
-        [ProducesResponseType(typeof(ExerciseDetailsModel), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<ExerciseDetailsModel>> CreateExercise([FromBody] ExerciseCreateModel exerciseCreateModel)
+        [ProducesResponseType(typeof(ExerciseDetailsDto), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<ExerciseDetailsDto>> CreateExercise([FromBody] CreateExerciseDto exerciseCreateModel)
         {
-            var response = await _exerciseServices.CreateExerciseAsync(exerciseCreateModel);
+            var response = await _mediator.Send(new CreateExerciseCommand(exerciseCreateModel));
             if (!response.IsSuccess)
                 return BadRequest(response.ErrorMessage);
 
-            return CreatedAtRoute("GetExerciseById", new { id = response.ExerciseDetailsModel.Id }, response.ExerciseDetailsModel);
+            return CreatedAtRoute("GetExerciseById", new { id = response.ExerciseDetailsDto.Id }, response.ExerciseDetailsDto);
         }
 
         [HttpPut]
@@ -67,9 +74,9 @@ namespace Exercises.Api.Controllers
         [ProducesResponseType((int)HttpStatusCode.Forbidden)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
-        public async Task<IActionResult> UpdateExercise([FromBody] ExerciseUpdateModel exerciseUpdateModel)
+        public async Task<IActionResult> UpdateExercise([FromBody] UpdateExerciseDto exerciseUpdateModel)
         {
-            var response = await _exerciseServices.UpdateExerciseAsync(exerciseUpdateModel);
+            var response = await _mediator.Send(new UpdateExerciseCommand(exerciseUpdateModel));
             if (!response.IsSuccess)
                 return StatusCode(response.ErrorStatusCode, response.ErrorMessage);
 
@@ -84,7 +91,7 @@ namespace Exercises.Api.Controllers
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         public async Task<IActionResult> DeleteExercise(int id)
         {
-            var response = await _exerciseServices.DeleteExerciseAsync(id);
+            var response = await _mediator.Send(new DeleteExerciseCommand(new DeleteExerciseDto(id)));
 
             if (!response.IsSuccess)
                 return StatusCode(response.ErrorStatusCode, response.ErrorMessage);
@@ -92,7 +99,7 @@ namespace Exercises.Api.Controllers
             return Ok();
         }
 
-        private bool ExerciseNotFound(ExerciseDetailsModel? exercise) =>
+        private bool ExerciseNotFound(ExerciseDetailsDto? exercise) =>
             exercise == null;
     }
 }

@@ -1,4 +1,4 @@
-﻿using Exercises.Domain.Entities;
+﻿using Exercises.Core.Entities;
 using Exercises.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,7 +15,7 @@ namespace Exercises.Infrastructure.Repositories
         public async Task<IEnumerable<Exercise>> GetAllExercisesAsync() =>
             await _context.Exercises.ToListAsync();
 
-        public async Task<Exercise?> GetExerciseByIdAsync(int id) =>
+        public async Task<Exercise> GetExerciseByIdAsync(int id) =>
             await _context.Exercises.FirstOrDefaultAsync(q => q.Id == id);
 
         public async Task<IEnumerable<Exercise>> GetExercisesByNameAsync(string name) =>

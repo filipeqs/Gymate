@@ -1,4 +1,4 @@
-﻿using Exercises.Domain.Entities;
+﻿using Exercises.Core.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Exercises.Infrastructure.Data

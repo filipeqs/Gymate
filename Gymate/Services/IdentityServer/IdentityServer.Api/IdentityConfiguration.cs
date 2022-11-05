@@ -18,15 +18,15 @@ namespace IdentityServer.Api
         public static IEnumerable<ApiScope> ApiScopes =>
             new List<ApiScope>
             {
-                new ApiScope("exercises.API.scope"),
+                new ApiScope("Gymate.Exercises.API"),
             };
 
         public static IEnumerable<ApiResource> ApiResources =>
             new List<ApiResource>
             {
-                new ApiResource("exercisesAPI")
+                new ApiResource("ExercisesAPI")
                 {
-                    Scopes = new List<string>{ "exercises.API.scope" },
+                    Scopes = new List<string>{ "Gymate.Exercises.API" },
                     UserClaims = new List<string>
                     {
                         IdentityServerConstants.StandardScopes.OpenId,
@@ -42,10 +42,10 @@ namespace IdentityServer.Api
             {
                 new Client
                 {
-                    ClientId = "exercises.API",
+                    ClientId = "Gymate.API.Client",
                     AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
                     ClientSecrets = { new Secret("secret".Sha256()) },
-                    AllowedScopes = { "exercises.API.scope" }
+                    AllowedScopes = { "Gymate.Exercises.API" }
                 }
             };
     }
