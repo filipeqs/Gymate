@@ -8,12 +8,12 @@ using Moq;
 
 namespace Exercises.UnitTests.Queries
 {
-    public class GetExerciseListTests
+    public class GetExerciseListQueryTests
     {
         private readonly IMapper _mapper;
         private readonly Mock<IExerciseRepository> _exerciseRepositoryMock;
 
-        public GetExerciseListTests()
+        public GetExerciseListQueryTests()
         {
             _exerciseRepositoryMock = MockExerciseRepository.GetExerciseRepository();
             _mapper = MockMapper.GetMapper();

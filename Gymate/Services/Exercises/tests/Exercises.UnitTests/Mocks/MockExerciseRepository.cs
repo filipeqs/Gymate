@@ -8,8 +8,8 @@ namespace Exercises.UnitTests.Mocks
     {
         public static Mock<IExerciseRepository> GetExerciseRepository()
         {
-            var exercises = new List<Exercise> 
-            { 
+            var exercises = new List<Exercise>
+            {
                 new Exercise
                 {
                     Id = 1,
@@ -31,6 +31,21 @@ namespace Exercises.UnitTests.Mocks
 
             mockRepo.Setup(x => x.GetExercisesByNameAsync("Deadlift"))
                 .ReturnsAsync(exercises.Where(q => q.Name.Contains("Deadlift")));
+
+            mockRepo.Setup(x => x.CreateExerciseAsync(It.IsAny<Exercise>()))
+                .Callback((Exercise exercise) =>
+                {
+                    exercises.Add(exercise);
+                });
+
+            mockRepo.Setup(x => x.UpdateExercise(It.IsAny<Exercise>()))
+                .Callback(() => { });
+
+            mockRepo.Setup(x => x.SaveAsync())
+                .ReturnsAsync(() =>
+                {
+                    return true;
+                });
 
             return mockRepo;
         }
