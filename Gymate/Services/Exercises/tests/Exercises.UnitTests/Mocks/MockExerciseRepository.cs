@@ -41,6 +41,12 @@ namespace Exercises.UnitTests.Mocks
             mockRepo.Setup(x => x.UpdateExercise(It.IsAny<Exercise>()))
                 .Callback(() => { });
 
+            mockRepo.Setup(x => x.DeleteExercise(It.IsAny<Exercise>()))
+                .Callback(() => 
+                {
+                    exercises.RemoveAt(0);
+                });
+
             mockRepo.Setup(x => x.SaveAsync())
                 .ReturnsAsync(() =>
                 {

@@ -6,11 +6,11 @@ namespace Exercises.Domain.Commands.DeleteExercise
 {
     public class DeleteExerciseCommand : IRequest<DeleteExerciseCommandResponse>
     {
-        public DeleteExerciseCommand(DeleteExerciseDto exerciseRemoveDto)
+        public DeleteExerciseCommand(DeleteExerciseDto deleteExerciseDto)
         {
-            ExerciseRemoveDto = exerciseRemoveDto;
+            DeleteExerciseDto = deleteExerciseDto;
         }
 
-        public DeleteExerciseDto ExerciseRemoveDto { get; }
+        public DeleteExerciseDto DeleteExerciseDto { get; }
     }
 }

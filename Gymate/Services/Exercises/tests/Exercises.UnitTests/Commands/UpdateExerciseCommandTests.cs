@@ -41,7 +41,7 @@ namespace Exercises.UnitTests.Commands
         public async Task Update_Unexisting_Exercise_Should_Be_Return_NotFound(UpdateExerciseDto updateExerciseDto)
         {
             //Arrange
-            updateExerciseDto.Id = 2;
+            updateExerciseDto.Id = 99;
             var handler = new UpdateExerciseHandler(_mapper, _exerciseRepositoryMock.Object);
 
             //Act

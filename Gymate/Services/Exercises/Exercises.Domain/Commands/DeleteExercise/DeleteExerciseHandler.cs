@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using Exercises.Core.Entities;
+﻿using Exercises.Core.Entities;
 using Exercises.Domain.Services.Exercises.Operations.ExerciseRemover;
 using Exercises.Infrastructure.Repositories;
 using MediatR;
@@ -8,22 +7,20 @@ namespace Exercises.Domain.Commands.DeleteExercise
 {
     public class DeleteExerciseHandler : IRequestHandler<DeleteExerciseCommand, DeleteExerciseCommandResponse>
     {
-        private readonly IMapper _mapper;
         private readonly IExerciseRepository _repository;
         private readonly DeleteExerciseCommandResponse _response = new();
         private Exercise? _exercise;
 
-        public DeleteExerciseHandler(IMapper mapper, IExerciseRepository repository)
+        public DeleteExerciseHandler(IExerciseRepository repository)
         {
-            _mapper = mapper;
             _repository = repository;
         }
 
         public async Task<DeleteExerciseCommandResponse> Handle(DeleteExerciseCommand request, CancellationToken cancellationToken)
         {
-            _exercise = await _repository.GetExerciseByIdAsync(request.ExerciseRemoveDto.Id);
+            _exercise = await _repository.GetExerciseByIdAsync(request.DeleteExerciseDto.Id);
             if (ExerciseNotFound())
-                _response.BuildNotFoundErrorResponse(request.ExerciseRemoveDto.Id);
+                _response.BuildNotFoundErrorResponse(request.DeleteExerciseDto.Id);
             else
             {
                 await RemoveExercise();
