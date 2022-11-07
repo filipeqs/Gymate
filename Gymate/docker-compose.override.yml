@@ -49,7 +49,7 @@ services:
     container_name: exercises.api
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - "ConnectionStrings:DefaultConnection=Server=gymatedb;Database=GymateDb;User Id=sa;Password=SwN12345678;"
+      - "ConnectionStrings:DefaultConnection=Server=gymatedb;Database=GymateExerciseDb;User Id=sa;Password=SwN12345678;"
       - "ConnectionStrings:RedisConnection=cachedb:6379"
     depends_on:
       - gymatedb

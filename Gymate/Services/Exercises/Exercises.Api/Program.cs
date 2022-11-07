@@ -20,7 +20,7 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddAuthentication("Bearer")
 .AddIdentityServerAuthentication("Bearer", options =>
 {
-    options.ApiName = "exercisesAPI";
+    options.ApiName = "ExercisesAPI";
     options.Authority = builder.Configuration.GetValue<string>("IdentityServerApi");
     options.RequireHttpsMetadata = false;
 });
