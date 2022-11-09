@@ -1,4 +1,4 @@
-﻿using Exercises.Domain.Models.Exercise;
+﻿using Exercises.Domain.Dtos;
 using MediatR;
 
 namespace Exercises.Domain.Commands.UpdateExercise

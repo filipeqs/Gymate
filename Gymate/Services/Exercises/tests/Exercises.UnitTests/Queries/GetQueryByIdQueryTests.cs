@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Exercises.Domain.Models.Exercise;
+using Exercises.Domain.Dtos;
 using Exercises.Domain.Queries.ExerciseById;
 using Exercises.Infrastructure.Repositories;
 using Exercises.UnitTests.Mocks;

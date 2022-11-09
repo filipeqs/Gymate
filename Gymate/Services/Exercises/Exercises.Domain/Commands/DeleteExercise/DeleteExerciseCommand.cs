@@ -1,5 +1,4 @@
-﻿using Exercises.Domain.Models.Exercise;
-using Exercises.Domain.Services.Exercises.Operations.ExerciseRemover;
+﻿using Exercises.Domain.Dtos;
 using MediatR;
 
 namespace Exercises.Domain.Commands.DeleteExercise

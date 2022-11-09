@@ -32,9 +32,19 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Exercises.Domain", "Service
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{2A5976E7-A35E-44C1-B1B9-593759089FAC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Exercises.UnitTests", "Services\Exercises\tests\Exercises.UnitTests\Exercises.UnitTests.csproj", "{81CBB0CA-E456-4BDF-AE04-77A291F7CFCE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Exercises.UnitTests", "Services\Exercises\tests\Exercises.UnitTests\Exercises.UnitTests.csproj", "{81CBB0CA-E456-4BDF-AE04-77A291F7CFCE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Exercises.FunctionalTests", "Services\Exercises\tests\Exercises.FunctionalTests\Exercises.FunctionalTests.csproj", "{6AB8E462-A79B-4AF7-B10F-F63BFE3CDAE3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Exercises.FunctionalTests", "Services\Exercises\tests\Exercises.FunctionalTests\Exercises.FunctionalTests.csproj", "{6AB8E462-A79B-4AF7-B10F-F63BFE3CDAE3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Workout", "Workout", "{673EB3F3-0804-42A8-99F9-202F5D442C24}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Workout.Api", "Services\Workout\Workout.Api\Workout.Api.csproj", "{6AD1AA75-65D1-4BEB-8173-058928E2955B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gymate.Aggregator", "ApiGateways\Gymate.Aggregator\Gymate.Aggregator.csproj", "{E2533654-04BD-404A-AEAB-88DBE00E2639}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BuildingBlocks", "BuildingBlocks", "{14B2A88E-49E4-410E-A052-9C3AC99F468B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventBus.Messages", "BuildingBlocks\EventBus.Messages\EventBus.Messages.csproj", "{118DEF06-1BA2-49FB-8F7F-0C6CBAA62025}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -78,6 +88,18 @@ Global
 		{6AB8E462-A79B-4AF7-B10F-F63BFE3CDAE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6AB8E462-A79B-4AF7-B10F-F63BFE3CDAE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6AB8E462-A79B-4AF7-B10F-F63BFE3CDAE3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6AD1AA75-65D1-4BEB-8173-058928E2955B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6AD1AA75-65D1-4BEB-8173-058928E2955B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6AD1AA75-65D1-4BEB-8173-058928E2955B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6AD1AA75-65D1-4BEB-8173-058928E2955B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E2533654-04BD-404A-AEAB-88DBE00E2639}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E2533654-04BD-404A-AEAB-88DBE00E2639}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E2533654-04BD-404A-AEAB-88DBE00E2639}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E2533654-04BD-404A-AEAB-88DBE00E2639}.Release|Any CPU.Build.0 = Release|Any CPU
+		{118DEF06-1BA2-49FB-8F7F-0C6CBAA62025}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{118DEF06-1BA2-49FB-8F7F-0C6CBAA62025}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{118DEF06-1BA2-49FB-8F7F-0C6CBAA62025}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{118DEF06-1BA2-49FB-8F7F-0C6CBAA62025}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -94,6 +116,10 @@ Global
 		{2A5976E7-A35E-44C1-B1B9-593759089FAC} = {4B816052-234F-4E56-BD1A-D4DCCD97A20E}
 		{81CBB0CA-E456-4BDF-AE04-77A291F7CFCE} = {2A5976E7-A35E-44C1-B1B9-593759089FAC}
 		{6AB8E462-A79B-4AF7-B10F-F63BFE3CDAE3} = {2A5976E7-A35E-44C1-B1B9-593759089FAC}
+		{673EB3F3-0804-42A8-99F9-202F5D442C24} = {2C16F21D-0F14-474F-ABF7-C8C62A027ED0}
+		{6AD1AA75-65D1-4BEB-8173-058928E2955B} = {673EB3F3-0804-42A8-99F9-202F5D442C24}
+		{E2533654-04BD-404A-AEAB-88DBE00E2639} = {5ECCAFD2-105E-4771-9774-3235F9C1B3A7}
+		{118DEF06-1BA2-49FB-8F7F-0C6CBAA62025} = {14B2A88E-49E4-410E-A052-9C3AC99F468B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9E43613F-9B48-488A-9C48-FBEA17B63E27}

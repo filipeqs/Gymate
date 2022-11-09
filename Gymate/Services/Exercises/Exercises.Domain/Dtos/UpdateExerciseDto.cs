@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Exercises.Domain.Models.Exercise
+namespace Exercises.Domain.Dtos
 {
     public class UpdateExerciseDto
     {

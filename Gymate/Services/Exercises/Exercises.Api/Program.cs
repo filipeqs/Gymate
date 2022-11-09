@@ -4,6 +4,7 @@ using Exercises.Api.Extensions;
 using Exercises.Infrastructure;
 using Exercises.Api.Middlewares;
 using Exercises.Infrastructure.Data;
+using MassTransit;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,6 +28,14 @@ builder.Services.AddAuthentication("Bearer")
 
 builder.Services.AddApplicationServices();
 builder.Services.AddInfrastructureServices(builder.Configuration);
+
+builder.Services.AddMassTransit(config =>
+{
+    config.UsingRabbitMq((ctx, cfg) =>
+    {
+        cfg.Host(builder.Configuration["EventBusSettings:HostAddress"]);
+    });
+});
 
 var app = builder.Build();
 

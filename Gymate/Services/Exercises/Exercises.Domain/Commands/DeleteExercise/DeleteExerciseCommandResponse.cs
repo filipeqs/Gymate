@@ -1,6 +1,6 @@
-﻿using Exercises.Domain.Models.Exercise;
+﻿using Exercises.Domain.Models;
 
-namespace Exercises.Domain.Services.Exercises.Operations.ExerciseRemover
+namespace Exercises.Domain.Commands.DeleteExercise
 {
     public class DeleteExerciseCommandResponse : BaseExerciseCommandResponse
     {

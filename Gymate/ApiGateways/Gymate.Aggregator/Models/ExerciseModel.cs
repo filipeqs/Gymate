@@ -1,6 +1,6 @@
-﻿namespace Exercises.Domain.Models.Exercise
+﻿namespace Gymate.Aggregator.Models
 {
-    public class ExerciseDetailsDto
+    public class ExerciseModel
     {
         public int Id { get; set; }
         public string Name { get; set; }

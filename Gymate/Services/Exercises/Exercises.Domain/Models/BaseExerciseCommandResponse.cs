@@ -1,7 +1,7 @@
 ﻿using Exercises.Domain.Extensions;
 using System.Net;
 
-namespace Exercises.Domain.Models.Exercise
+namespace Exercises.Domain.Models
 {
     public abstract class BaseExerciseCommandResponse
     {

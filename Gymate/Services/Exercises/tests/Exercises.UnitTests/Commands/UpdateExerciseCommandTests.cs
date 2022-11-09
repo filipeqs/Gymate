@@ -1,11 +1,12 @@
 ﻿using AutoFixture.Xunit2;
 using AutoMapper;
 using Exercises.Domain.Commands.UpdateExercise;
+using Exercises.Domain.Dtos;
 using Exercises.Domain.Extensions;
-using Exercises.Domain.Models.Exercise;
 using Exercises.Infrastructure.Repositories;
 using Exercises.UnitTests.Mocks;
 using FluentAssertions;
+using MassTransit;
 using Moq;
 using System.Net;
 
@@ -15,22 +16,25 @@ namespace Exercises.UnitTests.Commands
     {
         private readonly IMapper _mapper;
         private readonly Mock<IExerciseRepository> _exerciseRepositoryMock;
+        private readonly Mock<IPublishEndpoint> _publishEndpoint;
+        private readonly UpdateExerciseHandler _handler;
 
         public UpdateExerciseCommandTests()
         {
-            _exerciseRepositoryMock = MockExerciseRepository.GetExerciseRepository();
             _mapper = MockMapper.GetMapper();
+            _exerciseRepositoryMock = MockExerciseRepository.GetExerciseRepository();
+            _publishEndpoint = new Mock<IPublishEndpoint>();
+            _handler = new UpdateExerciseHandler(_mapper, _exerciseRepositoryMock.Object, _publishEndpoint.Object);
         }
 
         [Theory, AutoData]
-        public async Task Update_Exercise_Should_Be_Success(UpdateExerciseDto updateExerciseDto)
+        public async Task UpdateExerciseShouldBeSuccess(UpdateExerciseDto updateExerciseDto)
         {
             //Arrange
             updateExerciseDto.Id = 1;
-            var handler = new UpdateExerciseHandler(_mapper, _exerciseRepositoryMock.Object);
 
             //Act
-            var response = await handler.Handle(new UpdateExerciseCommand(updateExerciseDto), CancellationToken.None);
+            var response = await _handler.Handle(new UpdateExerciseCommand(updateExerciseDto), CancellationToken.None);
 
             //Assert
             response.IsSuccess.Should().BeTrue();
@@ -42,10 +46,9 @@ namespace Exercises.UnitTests.Commands
         {
             //Arrange
             updateExerciseDto.Id = 99;
-            var handler = new UpdateExerciseHandler(_mapper, _exerciseRepositoryMock.Object);
 
             //Act
-            var response = await handler.Handle(new UpdateExerciseCommand(updateExerciseDto), CancellationToken.None);
+            var response = await _handler.Handle(new UpdateExerciseCommand(updateExerciseDto), CancellationToken.None);
 
             //Assert
             response.IsSuccess.Should().BeFalse();
@@ -57,12 +60,11 @@ namespace Exercises.UnitTests.Commands
         {
             //Arrange
             updateExerciseDto.Id = 1;
-            var handler = new UpdateExerciseHandler(_mapper, _exerciseRepositoryMock.Object);
             _exerciseRepositoryMock.Setup(x => x.SaveAsync())
                  .ReturnsAsync(() => false);
 
             //Act
-            var response = await handler.Handle(new UpdateExerciseCommand(updateExerciseDto), CancellationToken.None);
+            var response = await _handler.Handle(new UpdateExerciseCommand(updateExerciseDto), CancellationToken.None);
 
             //Assert
             response.IsSuccess.Should().BeFalse();

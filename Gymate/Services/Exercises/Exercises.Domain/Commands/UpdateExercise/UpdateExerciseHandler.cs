@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
+using EventBus.Messages.Events;
 using Exercises.Core.Entities;
-using Exercises.Domain.Models.Exercise;
+using Exercises.Domain.Dtos;
 using Exercises.Infrastructure.Repositories;
+using MassTransit;
 using MediatR;
 
 namespace Exercises.Domain.Commands.UpdateExercise
@@ -10,13 +12,17 @@ namespace Exercises.Domain.Commands.UpdateExercise
     {
         private readonly IMapper _mapper;
         private readonly IExerciseRepository _repository;
+        private readonly IPublishEndpoint _publishEndpoint;
         private readonly UpdateExerciseCommandResponse _response = new();
         private Exercise _exercise;
 
-        public UpdateExerciseHandler(IMapper mapper, IExerciseRepository repository)
+        public UpdateExerciseHandler(IMapper mapper,
+            IExerciseRepository repository,
+            IPublishEndpoint publishEndpoint)
         {
             _mapper = mapper;
             _repository = repository;
+            _publishEndpoint = publishEndpoint;
         }
 
         public async Task<UpdateExerciseCommandResponse> Handle(UpdateExerciseCommand request, CancellationToken cancellationToken)
@@ -32,7 +38,19 @@ namespace Exercises.Domain.Commands.UpdateExercise
                     _response.BuildBadRequestErrorResponse("Failed to update exercise");
             }
 
+            await PublishExerciseUpdateEvent();
+
             return _response;
+        }
+
+        private async Task PublishExerciseUpdateEvent()
+        {
+            var eventMessage = new ExerciseUpdateEvent
+            {
+                ExerciseId = _exercise.Id,
+                ExerciseName = _exercise.Name,
+            };
+            await _publishEndpoint.Publish(eventMessage);
         }
 
         private async Task UpdateExercise(UpdateExerciseDto exerciseUpdateModel)

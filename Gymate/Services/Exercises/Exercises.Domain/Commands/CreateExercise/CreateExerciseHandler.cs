@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Exercises.Core.Entities;
-using Exercises.Domain.Models.Exercise;
+using Exercises.Domain.Dtos;
 using Exercises.Infrastructure.Repositories;
 using MediatR;
 

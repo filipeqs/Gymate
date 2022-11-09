@@ -1,11 +1,10 @@
 ﻿using Exercises.Domain.Commands.CreateExercise;
 using Exercises.Domain.Commands.DeleteExercise;
 using Exercises.Domain.Commands.UpdateExercise;
-using Exercises.Domain.Models.Exercise;
+using Exercises.Domain.Dtos;
 using Exercises.Domain.Queries.ExerciseById;
 using Exercises.Domain.Queries.GetExerciseList;
 using Exercises.Domain.Queries.GetExercisesByName;
-using Exercises.Domain.Services.Exercises;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

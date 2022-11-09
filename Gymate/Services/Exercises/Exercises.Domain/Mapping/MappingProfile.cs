@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
+using EventBus.Messages.Events;
 using Exercises.Core.Entities;
-using Exercises.Domain.Commands.CreateExercise;
-using Exercises.Domain.Models.Exercise;
+using Exercises.Domain.Dtos;
 
 namespace Exercises.Domain.Mapping
 {

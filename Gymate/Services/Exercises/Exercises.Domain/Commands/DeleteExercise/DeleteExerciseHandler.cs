@@ -1,5 +1,4 @@
 ﻿using Exercises.Core.Entities;
-using Exercises.Domain.Services.Exercises.Operations.ExerciseRemover;
 using Exercises.Infrastructure.Repositories;
 using MediatR;
 

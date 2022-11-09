@@ -16,6 +16,9 @@ services:
   cachedb:
     image: redis:alpine
 
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+
   identityserver.api:
     image: ${DOCKER_REGISTRY-}identityserverapi
     build:
@@ -27,6 +30,12 @@ services:
     build:
       context: .
       dockerfile: Services\Exercises\Exercises.Api\Dockerfile
+
+  workout.api:
+    image: ${DOCKER_REGISTRY-}workoutapi
+    build:
+      context: .
+      dockerfile: Services\Workout\Workout.Api\Dockerfile
 
 volumes:
   portainer_data:

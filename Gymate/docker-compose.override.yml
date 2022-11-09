@@ -35,6 +35,13 @@ services:
     ports:
       - '6379:6379'
 
+  rabbitmq:
+    container_name: rabbitmq
+    restart: always
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
   identityserver.api:
     container_name: identityserver.api
     environment:
@@ -51,8 +58,20 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - "ConnectionStrings:DefaultConnection=Server=gymatedb;Database=GymateExerciseDb;User Id=sa;Password=SwN12345678;"
       - "ConnectionStrings:RedisConnection=cachedb:6379"
+      - "EventBusSettings:HostAddress=amqp://guest:guest@rabbitmq:5672"
     depends_on:
       - gymatedb
       - cachedb
+      - rabbitmq
     ports:
       - "8000:80"
+
+  workout.api:
+    container_name: workout.api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "EventBusSettings:HostAddress=amqp://guest:guest@rabbitmq:5672"
+    depends_on:
+      - rabbitmq
+    ports:
+      - "8001:80"

@@ -1,8 +1,8 @@
 ﻿using AutoFixture.Xunit2;
 using AutoMapper;
 using Exercises.Domain.Commands.CreateExercise;
+using Exercises.Domain.Dtos;
 using Exercises.Domain.Extensions;
-using Exercises.Domain.Models.Exercise;
 using Exercises.Infrastructure.Repositories;
 using Exercises.UnitTests.Mocks;
 using FluentAssertions;

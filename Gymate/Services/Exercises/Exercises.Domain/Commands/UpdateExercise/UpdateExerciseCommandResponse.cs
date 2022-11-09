@@ -1,4 +1,4 @@
-﻿using Exercises.Domain.Models.Exercise;
+﻿using Exercises.Domain.Models;
 
 namespace Exercises.Domain.Commands.UpdateExercise
 {
