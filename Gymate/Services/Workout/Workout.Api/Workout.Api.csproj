@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <PackageReference Include="Gymate.EventBus.Messages" Version="1.0.2" />
+    <PackageReference Include="Gymate.ExceptionHandling" Version="1.0.0" />
     <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="3.0.1" />
     <PackageReference Include="MassTransit.RabbitMQ" Version="8.0.8" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.17.0" />

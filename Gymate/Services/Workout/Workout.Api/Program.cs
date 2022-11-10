@@ -1,4 +1,6 @@
 using EventBus.Messages.Common;
+using ExceptionHandling.Extensions;
+using ExceptionHandling.Middleware;
 using MassTransit;
 using Microsoft.OpenApi.Models;
 using Workout.Api.EventBusConsumer;
@@ -41,6 +43,8 @@ builder.Services.AddMassTransit(config =>
     });
 });
 
+builder.Services.AddExceptionHandlingServices();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -49,6 +53,8 @@ if (app.Environment.IsDevelopment() || app.Environment.IsLocal())
     app.UseSwagger();
     app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Workout.API v1"));
 }
+
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.UseAuthentication();
 app.UseAuthorization();

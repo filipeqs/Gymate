@@ -1,5 +1,6 @@
+using ExceptionHandling.Extensions;
+using ExceptionHandling.Middleware;
 using Exercises.Api.Extensions;
-using Exercises.Api.Middlewares;
 using Exercises.Domain;
 using Exercises.Infrastructure;
 using Exercises.Infrastructure.Data;
@@ -26,6 +27,7 @@ builder.Services.AddAuthentication("Bearer")
     options.RequireHttpsMetadata = false;
 });
 
+builder.Services.AddExceptionHandlingServices();
 builder.Services.AddApplicationServices();
 builder.Services.AddInfrastructureServices(builder.Configuration);
 
@@ -48,7 +50,7 @@ if (app.Environment.IsDevelopment() || app.Environment.IsLocal())
     app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Exercise.API v1"));
 }
 
-app.UseMiddleware<ExceptionMiddleware>();
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.UseAuthentication();
 app.UseAuthorization();
