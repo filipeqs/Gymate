@@ -1,10 +1,10 @@
-using Exercises.Domain;
-using Microsoft.OpenApi.Models;
 using Exercises.Api.Extensions;
-using Exercises.Infrastructure;
 using Exercises.Api.Middlewares;
+using Exercises.Domain;
+using Exercises.Infrastructure;
 using Exercises.Infrastructure.Data;
 using MassTransit;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 

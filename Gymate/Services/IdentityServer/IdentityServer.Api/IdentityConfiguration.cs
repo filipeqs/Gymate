@@ -19,6 +19,7 @@ namespace IdentityServer.Api
             new List<ApiScope>
             {
                 new ApiScope("Gymate.Exercises.API"),
+                new ApiScope("Gymate.Workout.API"),
             };
 
         public static IEnumerable<ApiResource> ApiResources =>
@@ -27,6 +28,17 @@ namespace IdentityServer.Api
                 new ApiResource("ExercisesAPI")
                 {
                     Scopes = new List<string>{ "Gymate.Exercises.API" },
+                    UserClaims = new List<string>
+                    {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile,
+                        IdentityServerConstants.StandardScopes.Email,
+                        "role"
+                    }
+                },
+                new ApiResource("WourkoutAPI")
+                {
+                    Scopes = new List<string>{ "Gymate.Workout.API" },
                     UserClaims = new List<string>
                     {
                         IdentityServerConstants.StandardScopes.OpenId,
@@ -45,7 +57,7 @@ namespace IdentityServer.Api
                     ClientId = "Gymate.API.Client",
                     AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
                     ClientSecrets = { new Secret("secret".Sha256()) },
-                    AllowedScopes = { "Gymate.Exercises.API" }
+                    AllowedScopes = { "Gymate.Exercises.API", "Gymate.Workout.API" }
                 }
             };
     }
