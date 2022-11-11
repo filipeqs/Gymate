@@ -1,4 +1,5 @@
-﻿using Exercises.Domain.Commands.CreateExercise;
+﻿using ExceptionHandling.Models;
+using Exercises.Domain.Commands.CreateExercise;
 using Exercises.Domain.Commands.DeleteExercise;
 using Exercises.Domain.Commands.UpdateExercise;
 using Exercises.Domain.Dtos;
@@ -38,7 +39,7 @@ namespace Exercises.Api.Controllers
         {
             var exercise = await _mediator.Send(new GetExerciseByIdQuery(id));
             if (ExerciseNotFound(exercise))
-                return NotFound($"Exercise with id {id} not found.");
+                return NotFound(new ApiResponse((int)HttpStatusCode.NotFound, $"Exercise with id {id} not found."));
 
             return Ok(exercise);
         }
@@ -61,7 +62,7 @@ namespace Exercises.Api.Controllers
         {
             var response = await _mediator.Send(new CreateExerciseCommand(exerciseCreateModel));
             if (!response.IsSuccess)
-                return BadRequest(response.ErrorMessage);
+                return BadRequest(new ApiResponse((int)HttpStatusCode.BadRequest, response.ErrorMessage));
 
             return CreatedAtRoute("GetExerciseById", new { id = response.ExerciseDetailsDto.Id }, response.ExerciseDetailsDto);
         }
@@ -77,7 +78,8 @@ namespace Exercises.Api.Controllers
         {
             var response = await _mediator.Send(new UpdateExerciseCommand(exerciseUpdateModel));
             if (!response.IsSuccess)
-                return StatusCode(response.ErrorStatusCode, response.ErrorMessage);
+                return StatusCode(response.ErrorStatusCode, 
+                    new ApiResponse(response.ErrorStatusCode, response.ErrorMessage));
 
             return Ok();
         }
@@ -93,7 +95,8 @@ namespace Exercises.Api.Controllers
             var response = await _mediator.Send(new DeleteExerciseCommand(new DeleteExerciseDto(id)));
 
             if (!response.IsSuccess)
-                return StatusCode(response.ErrorStatusCode, response.ErrorMessage);
+                return StatusCode(response.ErrorStatusCode, 
+                    new ApiResponse(response.ErrorStatusCode, response.ErrorMessage));
 
             return Ok();
         }
