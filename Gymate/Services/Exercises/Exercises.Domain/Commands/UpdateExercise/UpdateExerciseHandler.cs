@@ -34,11 +34,11 @@ namespace Exercises.Domain.Commands.UpdateExercise
             {
                 await UpdateExercise(request.ExerciseUpdateDto);
 
-                if (_response.IsSuccess == false)
+                if (_response.IsSuccess)
+                    await PublishExerciseUpdateEvent();
+                else 
                     _response.BuildBadRequestErrorResponse("Failed to update exercise");
             }
-
-            await PublishExerciseUpdateEvent();
 
             return _response;
         }
