@@ -1,4 +1,5 @@
 ﻿using Exercises.Api.Extensions;
+using Exercises.FunctionalTests.Extensions;
 using Exercises.Infrastructure.Data;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
@@ -21,7 +22,7 @@ namespace Exercises.FunctionalTests
                 .UseEnvironment("Test")
                 .ConfigureAppConfiguration(cb =>
                 {
-                    cb.AddJsonFile("appsettings.json", optional: false)
+                    cb.AddJsonFile("appsettings.Tests.json", optional: false)
                     .AddEnvironmentVariables();
                 }).UseStartup<ExercisesTestStartup>();
 

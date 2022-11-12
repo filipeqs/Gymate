@@ -1,4 +1,5 @@
 ﻿using Exercises.Infrastructure.Data;
+using Exercises.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -22,6 +23,7 @@ namespace Exercises.FunctionalTests
             {
                 options.UseSqlServer(_configuration.GetConnectionString("DefaultConnection"));
             });
+            services.AddScoped<IExerciseRepository, ExerciseRepository>();
         }
 
         public void Configure(IApplicationBuilder app)

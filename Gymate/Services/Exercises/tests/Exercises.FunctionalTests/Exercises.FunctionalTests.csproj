@@ -9,16 +9,18 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<None Remove="appsettings.json" />
+		<None Remove="appsettings.Tests.json" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<Content Include="appsettings.json">
+		<Content Include="appsettings.Tests.json">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</Content>
 	</ItemGroup>
 
 	<ItemGroup>
+		<PackageReference Include="AutoFixture.Xunit2" Version="4.17.0" />
+		<PackageReference Include="FluentAssertions" Version="6.8.0" />
 		<PackageReference Include="Microsoft.AspNetCore.TestHost" Version="6.0.11" />
 		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0" />
 		<PackageReference Include="xunit" Version="2.4.1" />

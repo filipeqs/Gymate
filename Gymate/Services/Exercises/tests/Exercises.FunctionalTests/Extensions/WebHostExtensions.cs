@@ -1,19 +1,19 @@
-﻿using MediatR;
+﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.OpenApi.Writers;
 using Polly;
 using Polly.Retry;
 
-namespace Exercises.Api.Extensions
+namespace Exercises.FunctionalTests.Extensions
 {
-    public static class HostExtensions
+    public static class WebHostExtensions
     {
-        public static IHost MigrateDbContext<TContext>(
-            this IHost host, 
-            Action<TContext, IServiceProvider> seeder) 
-            where TContext : DbContext
+        public static IWebHost MigrateDbContext<TContext>(
+          this IWebHost host,
+          Action<TContext, IServiceProvider> seeder)
+          where TContext : DbContext
         {
             using var scope = host.Services.CreateScope();
             Migrate(scope, seeder);
@@ -57,11 +57,12 @@ namespace Exercises.Api.Extensions
         }
 
         private static void InvokeSeeder<TContext>(
-            Action<TContext, IServiceProvider> seeder, 
-            TContext context, 
+            Action<TContext, IServiceProvider> seeder,
+            TContext context,
             IServiceProvider services)
             where TContext : DbContext
         {
+            context.Database.EnsureDeleted();
             context.Database.Migrate();
             seeder(context, services);
         }
