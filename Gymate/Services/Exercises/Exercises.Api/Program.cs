@@ -41,7 +41,15 @@ builder.Services.AddMassTransit(config =>
 
 var app = builder.Build();
 
-app.MigrateDatabase<ExerciseContext>();
+app.MigrateDbContext<ExerciseContext>((context, services) =>
+{
+    var env = services.GetService<IHostEnvironment>();
+    var logger = services.GetService<ILogger<ExerciseContextSeed>>();
+
+    new ExerciseContextSeed()
+        .SeedAsync(context, env, logger)
+        .Wait();
+});
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment() || app.Environment.IsLocal())
