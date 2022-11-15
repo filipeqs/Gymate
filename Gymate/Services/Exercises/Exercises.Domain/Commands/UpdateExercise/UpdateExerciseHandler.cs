@@ -32,12 +32,14 @@ namespace Exercises.Domain.Commands.UpdateExercise
                 _response.BuildNotFoundErrorResponse(request.ExerciseUpdateDto.Id);
             else
             {
+                var shouldRaiseEvent = _exercise.Name != request.ExerciseUpdateDto.Name;
                 await UpdateExercise(request.ExerciseUpdateDto);
 
-                if (_response.IsSuccess)
-                    await PublishExerciseUpdateEvent();
-                else 
+                if (_response.IsSuccess is false)
                     _response.BuildBadRequestErrorResponse("Failed to update exercise");
+
+                if (shouldRaiseEvent)
+                    await PublishExerciseUpdateEvent();
             }
 
             return _response;
