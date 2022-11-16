@@ -41,4 +41,9 @@ namespace Exercises.FunctionalTests
             return testServer;
         }
     }
+
+    public static class Get
+    {
+        public static string Exercises = "api/v1/exercises";
+    }
 }

@@ -29,18 +29,19 @@ namespace Exercises.Domain.Commands.UpdateExercise
         {
             _exercise = await _repository.GetExerciseByIdAsync(request.ExerciseUpdateDto.Id);
             if (ExerciseNotFound())
-                _response.BuildNotFoundErrorResponse(request.ExerciseUpdateDto.Id);
-            else
             {
-                var shouldRaiseEvent = _exercise.Name != request.ExerciseUpdateDto.Name;
-                await UpdateExercise(request.ExerciseUpdateDto);
-
-                if (_response.IsSuccess is false)
-                    _response.BuildBadRequestErrorResponse("Failed to update exercise");
-
-                if (shouldRaiseEvent)
-                    await PublishExerciseUpdateEvent();
+                _response.BuildNotFoundErrorResponse(request.ExerciseUpdateDto.Id);
+                return _response;
             }
+
+            var shouldRaiseEvent = _exercise.Name != request.ExerciseUpdateDto.Name;
+            await UpdateExercise(request.ExerciseUpdateDto);
+
+            if (_response.IsSuccess is false)
+                _response.BuildBadRequestErrorResponse("Failed to update exercise");
+
+            if (shouldRaiseEvent)
+                await PublishExerciseUpdateEvent();
 
             return _response;
         }
