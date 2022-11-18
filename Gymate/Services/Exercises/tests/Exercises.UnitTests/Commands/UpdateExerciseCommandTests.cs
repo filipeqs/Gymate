@@ -2,11 +2,11 @@
 using AutoMapper;
 using Exercises.Domain.Commands.UpdateExercise;
 using Exercises.Domain.Dtos;
+using Exercises.Domain.Events;
 using Exercises.Domain.Extensions;
 using Exercises.Infrastructure.Repositories;
 using Exercises.UnitTests.Mocks;
 using FluentAssertions;
-using MassTransit;
 using Moq;
 using System.Net;
 
@@ -16,15 +16,15 @@ namespace Exercises.UnitTests.Commands
     {
         private readonly IMapper _mapper;
         private readonly Mock<IExerciseRepository> _exerciseRepositoryMock;
-        private readonly Mock<IPublishEndpoint> _publishEndpoint;
+        private readonly Mock<IExerciseUpdateEventPublisher> _exerciseUpdateEventPublisher;
         private readonly UpdateExerciseHandler _handler;
 
         public UpdateExerciseCommandTests()
         {
             _mapper = MockMapper.GetMapper();
             _exerciseRepositoryMock = MockExerciseRepository.GetExerciseRepository();
-            _publishEndpoint = new Mock<IPublishEndpoint>();
-            _handler = new UpdateExerciseHandler(_mapper, _exerciseRepositoryMock.Object, _publishEndpoint.Object);
+            _exerciseUpdateEventPublisher = new Mock<IExerciseUpdateEventPublisher>();
+            _handler = new UpdateExerciseHandler(_mapper, _exerciseRepositoryMock.Object, _exerciseUpdateEventPublisher.Object);
         }
 
         [Theory, AutoData]

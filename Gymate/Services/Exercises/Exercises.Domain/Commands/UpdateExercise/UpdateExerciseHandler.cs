@@ -1,9 +1,8 @@
 ﻿using AutoMapper;
-using EventBus.Messages.Events;
 using Exercises.Core.Entities;
 using Exercises.Domain.Dtos;
+using Exercises.Domain.Events;
 using Exercises.Infrastructure.Repositories;
-using MassTransit;
 using MediatR;
 
 namespace Exercises.Domain.Commands.UpdateExercise
@@ -12,17 +11,17 @@ namespace Exercises.Domain.Commands.UpdateExercise
     {
         private readonly IMapper _mapper;
         private readonly IExerciseRepository _repository;
-        private readonly IPublishEndpoint _publishEndpoint;
+        private readonly IExerciseUpdateEventPublisher _exerciseUpdateEventPublisher;
         private readonly UpdateExerciseCommandResponse _response = new();
         private Exercise _exercise;
 
         public UpdateExerciseHandler(IMapper mapper,
             IExerciseRepository repository,
-            IPublishEndpoint publishEndpoint)
+            IExerciseUpdateEventPublisher exerciseUpdateEventPublisher)
         {
             _mapper = mapper;
             _repository = repository;
-            _publishEndpoint = publishEndpoint;
+            _exerciseUpdateEventPublisher = exerciseUpdateEventPublisher;
         }
 
         public async Task<UpdateExerciseCommandResponse> Handle(UpdateExerciseCommand request, CancellationToken cancellationToken)
@@ -48,12 +47,7 @@ namespace Exercises.Domain.Commands.UpdateExercise
 
         private async Task PublishExerciseUpdateEvent()
         {
-            var eventMessage = new ExerciseUpdateEvent
-            {
-                ExerciseId = _exercise.Id,
-                ExerciseName = _exercise.Name,
-            };
-            await _publishEndpoint.Publish(eventMessage);
+            await _exerciseUpdateEventPublisher.Publish(_exercise);
         }
 
         private async Task UpdateExercise(UpdateExerciseDto exerciseUpdateModel)

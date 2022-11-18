@@ -1,4 +1,5 @@
-﻿using Exercises.Domain.Mapping;
+﻿using Exercises.Domain.Events;
+using Exercises.Domain.Mapping;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -10,6 +11,7 @@ namespace Exercises.Domain
         {
             services.AddAutoMapper(typeof(MappingProfile).Assembly);
             services.AddMediatR(typeof(MediatorEntryPoint).Assembly);
+            services.AddScoped<IExerciseUpdateEventPublisher, ExerciseUpdateEventPublisher>();
 
             return services;
         }
