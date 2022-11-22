@@ -6,5 +6,10 @@
         {
             return environment.EnvironmentName == "Local";
         }
+
+        public static bool IsTest(this IHostEnvironment environment)
+        {
+            return environment.EnvironmentName == "Test";
+        }
     }
 }

@@ -1,8 +1,5 @@
-﻿using MediatR;
-using Microsoft.Data.SqlClient;
+﻿using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using Microsoft.OpenApi.Writers;
 using Polly;
 using Polly.Retry;
 
@@ -27,6 +24,7 @@ namespace Exercises.Api.Extensions
             var services = scope.ServiceProvider;
             var logger = services.GetRequiredService<ILogger<TContext>>();
             var context = services.GetService<TContext>();
+            var env = services.GetService<IHostEnvironment>();
 
             try
             {
@@ -34,7 +32,7 @@ namespace Exercises.Api.Extensions
 
                 var retryPolicy = CreateRetryPolicy(logger);
 
-                retryPolicy.Execute(() => InvokeSeeder(seeder, context, services));
+                retryPolicy.Execute(() => InvokeSeeder(seeder, context, services, env));
             }
             catch (Exception ex)
             {
@@ -59,11 +57,14 @@ namespace Exercises.Api.Extensions
         private static void InvokeSeeder<TContext>(
             Action<TContext, IServiceProvider> seeder, 
             TContext context, 
-            IServiceProvider services)
+            IServiceProvider services,
+            IHostEnvironment env)
             where TContext : DbContext
         {
             context.Database.Migrate();
-            seeder(context, services);
+
+            if (!env.IsTest())
+                seeder(context, services);
         }
     }
 }

@@ -1,9 +1,9 @@
 ﻿using Exercises.Infrastructure.Data;
+using Exercises.Infrastructure.Repositories;
+using Exercises.Infrastructure.Repositories.Cache;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Exercises.Infrastructure.Repositories;
 using Microsoft.Extensions.DependencyInjection;
-using Exercises.Infrastructure.Repositories.Cache;
 
 namespace Exercises.Infrastructure
 {
@@ -11,6 +11,7 @@ namespace Exercises.Infrastructure
     {
         public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
         {
+
             services.AddDbContext<ExerciseContext>(options =>
             {
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
