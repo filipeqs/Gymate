@@ -1,6 +1,6 @@
 ﻿namespace Exercises.Api.Extensions
 {
-    public static class IHostEnvironmentExtensions
+    public static class HostEnvironmentExtensions
     {
         public static bool IsLocal(this IHostEnvironment environment)
         {

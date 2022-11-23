@@ -3,8 +3,10 @@ using DotNet.Testcontainers.Configurations;
 using DotNet.Testcontainers.Containers;
 using Exercises.Api;
 using Exercises.Domain.Events;
+using Exercises.FunctionalTests.Authentication;
 using Exercises.FunctionalTests.Events;
 using Exercises.Infrastructure.Data;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.Routing;
@@ -22,6 +24,8 @@ namespace Exercises.FunctionalTests
 {
     public class ExerciseApiFactory : WebApplicationFactory<IApiMaker>, IAsyncLifetime
     {
+        private DbConnection _dbConnection = default!;
+        private Respawner _respawner = default!;
         private readonly TestcontainerDatabase _dbContainer =
             new TestcontainersBuilder<MsSqlTestcontainer>()
                 .WithDatabase(new MsSqlTestcontainerConfiguration()
@@ -31,9 +35,6 @@ namespace Exercises.FunctionalTests
                 .WithImage("mcr.microsoft.com/mssql/server:2022-latest")
                 .WithCleanUp(true)
                 .Build();
-
-        private DbConnection _dbConnection = default!;
-        private Respawner _respawner = default!;
 
         public HttpClient HttpClient { get; private set; } 
 
@@ -60,6 +61,11 @@ namespace Exercises.FunctionalTests
                     });
                     services.AddScoped<IExerciseUpdateEventPublisher, FakeExerciseUpdateEventPublisher>();
                     services.Configure<RouteOptions>(configuration);
+                    services.AddAuthentication(options =>
+                    {
+                        options.DefaultAuthenticateScheme = "Test";
+                        options.DefaultChallengeScheme= "Test";
+                    }).AddScheme<AuthenticationSchemeOptions, AuthenticationTestHandler>("Test", opt => { });
                 });
 
             base.ConfigureWebHost(builder);
@@ -87,7 +93,7 @@ namespace Exercises.FunctionalTests
             });
         }
 
-        async Task IAsyncLifetime.DisposeAsync()
+        public new async Task DisposeAsync()
         {
             await _dbContainer.StopAsync();
         }
