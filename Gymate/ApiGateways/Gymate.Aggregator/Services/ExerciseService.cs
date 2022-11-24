@@ -1,4 +1,5 @@
-﻿using Gymate.Aggregator.Extensions;
+﻿using Gymate.Aggregator.Config;
+using Gymate.Aggregator.Extensions;
 using Gymate.Aggregator.Interfaces;
 using Gymate.Aggregator.Models;
 
@@ -15,7 +16,7 @@ namespace Gymate.Aggregator.Services
 
         public async Task<IEnumerable<ExerciseModel>> GetExercises()
         {
-            var response = await _client.GetAsync("/api/v1/Exercises");
+            var response = await _client.GetAsync(ExerciseOperations.GetExercises());
             return await response.ReadContentAs<List<ExerciseModel>>();
         }
     }

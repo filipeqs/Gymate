@@ -1,11 +1,12 @@
 ﻿using Gymate.Aggregator.Interfaces;
 using Gymate.Aggregator.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Gymate.Aggregator.Controllers
 {
-    [Route("api/v1/[controller]")]
     [ApiController]
+    [Route("api/v1/[controller]")]
     public class WorkoutController : ControllerBase
     {
         private readonly IExerciseService _exerciseService;
@@ -16,6 +17,7 @@ namespace Gymate.Aggregator.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<ExerciseModel>> GetExercises()
         {
             var exercises = await _exerciseService.GetExercises();
