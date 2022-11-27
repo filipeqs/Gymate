@@ -5,6 +5,7 @@ using MassTransit;
 using Microsoft.OpenApi.Models;
 using Workouts.Api.EventBusConsumer;
 using Workouts.Api.Extensions;
+using Workouts.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -42,6 +43,8 @@ builder.Services.AddMassTransit(config =>
         });
     });
 });
+
+builder.Services.AddInfrastructureServices(builder.Configuration);
 
 builder.Services.AddExceptionHandlingServices();
 
