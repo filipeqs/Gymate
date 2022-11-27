@@ -1,7 +1,7 @@
 ﻿using EventBus.Messages.Events;
 using MassTransit;
 
-namespace Workout.Api.EventBusConsumer
+namespace Workouts.Api.EventBusConsumer
 {
     public class ExerciseUpdateConsumer : IConsumer<ExerciseUpdateEvent>
     {

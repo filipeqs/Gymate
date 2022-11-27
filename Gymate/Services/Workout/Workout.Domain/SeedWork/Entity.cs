@@ -1,4 +1,4 @@
-﻿namespace Workout.Domain.SeedWork;
+﻿namespace Workouts.Domain.SeedWork;
 
 public abstract class Entity
 {

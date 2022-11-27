@@ -1,9 +1,7 @@
-using Gymate.Aggregator.Config;
 using Gymate.Aggregator.Infrastructure;
 using Gymate.Aggregator.Interfaces;
 using Gymate.Aggregator.Services;
 using Microsoft.OpenApi.Models;
-using System;
 
 var builder = WebApplication.CreateBuilder(args);
 

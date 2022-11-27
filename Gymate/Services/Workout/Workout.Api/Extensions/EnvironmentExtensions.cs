@@ -1,4 +1,4 @@
-﻿namespace Workout.Api.Extensions
+﻿namespace Workouts.Api.Extensions
 {
     public static class EnvironmentExtensions
     {

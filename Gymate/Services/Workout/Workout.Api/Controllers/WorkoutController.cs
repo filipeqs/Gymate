@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
-namespace Workout.Api.Controllers
+namespace Workouts.Api.Controllers
 {
     [ApiController]
     [Route("api/v1/[controller]")]

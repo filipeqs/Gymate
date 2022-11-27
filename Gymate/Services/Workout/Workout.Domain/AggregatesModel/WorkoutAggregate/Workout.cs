@@ -1,6 +1,6 @@
-﻿using Workout.Domain.SeedWork;
+﻿using Workouts.Domain.SeedWork;
 
-namespace Workout.Domain.AggregatesModel.WorkoutAggregate;
+namespace Workouts.Domain.AggregatesModel.WorkoutAggregate;
 
 public class Workout : Entity
 {

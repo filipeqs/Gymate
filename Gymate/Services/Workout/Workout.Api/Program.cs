@@ -3,8 +3,8 @@ using ExceptionHandling.Extensions;
 using ExceptionHandling.Middleware;
 using MassTransit;
 using Microsoft.OpenApi.Models;
-using Workout.Api.EventBusConsumer;
-using Workout.Api.Extensions;
+using Workouts.Api.EventBusConsumer;
+using Workouts.Api.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 

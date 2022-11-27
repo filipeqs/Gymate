@@ -38,7 +38,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Exercises.FunctionalTests",
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Workout", "Workout", "{673EB3F3-0804-42A8-99F9-202F5D442C24}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Workout.Api", "Services\Workout\Workout.Api\Workout.Api.csproj", "{6AD1AA75-65D1-4BEB-8173-058928E2955B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Workouts.Api", "Services\Workout\Workout.Api\Workouts.Api.csproj", "{6AD1AA75-65D1-4BEB-8173-058928E2955B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gymate.Aggregator", "ApiGateways\Gymate.Aggregator\Gymate.Aggregator.csproj", "{E2533654-04BD-404A-AEAB-88DBE00E2639}"
 EndProject
@@ -50,9 +50,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExceptionHandling", "Buildi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Buggy.Api", "BuildingBlocks\Buggy.Api\Buggy.Api.csproj", "{A4483335-A689-4687-ABE0-15882067D04D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Workout.Domain", "Services\Workout\Workout.Domain\Workout.Domain.csproj", "{0F82BFB0-890F-4FED-9C7A-AFC7E83FC4A9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Workouts.Domain", "Services\Workout\Workout.Domain\Workouts.Domain.csproj", "{0F82BFB0-890F-4FED-9C7A-AFC7E83FC4A9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Workout.Infrastructure", "Services\Workout\Workout.Infrastructure\Workout.Infrastructure.csproj", "{C2DB68B5-DAD4-4811-9AEC-08672714B08C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Workouts.Infrastructure", "Services\Workout\Workout.Infrastructure\Workouts.Infrastructure.csproj", "{C2DB68B5-DAD4-4811-9AEC-08672714B08C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
