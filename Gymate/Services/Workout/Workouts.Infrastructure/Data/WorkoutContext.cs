@@ -3,7 +3,7 @@ using Workouts.Domain.AggregatesModel.StudentAggregate;
 using Workouts.Domain.AggregatesModel.WorkoutAggregate;
 using Workouts.Infrastructure.EntityConfigurations;
 
-namespace Workouts.Infrastructure;
+namespace Workouts.Infrastructure.Data;
 
 public sealed class WorkoutContext : DbContext
 {
