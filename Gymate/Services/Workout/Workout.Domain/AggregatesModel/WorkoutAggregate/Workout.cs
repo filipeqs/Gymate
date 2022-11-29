@@ -6,15 +6,15 @@ public class Workout : Entity
 {
     public string Title { get; private set; }
 
-    public int Student { get; private set; }
+    public int StudentId { get; private set; }
 
     public IReadOnlyCollection<WorkoutExercise> WorkoutExercises => _workoutExercises;
     private readonly List<WorkoutExercise> _workoutExercises;
 
-    public Workout(string title, int student)
+    public Workout(string title, int studentId)
     {
         Title = title;
-        Student = student;
+        StudentId = studentId;
         _workoutExercises = new List<WorkoutExercise>();
     }
 

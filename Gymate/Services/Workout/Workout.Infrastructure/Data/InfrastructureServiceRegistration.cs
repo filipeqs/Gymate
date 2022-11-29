@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Workouts.Infrastructure;
+namespace Workouts.Infrastructure.Data;
 
 public static class InfrastructureServiceRegistration
 {
