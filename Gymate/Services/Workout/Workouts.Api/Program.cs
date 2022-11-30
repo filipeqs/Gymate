@@ -6,6 +6,7 @@ using Microsoft.OpenApi.Models;
 using Workouts.Api.EventBusConsumer;
 using Workouts.Api.Extensions;
 using Workouts.Infrastructure;
+using Workouts.Infrastructure.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -49,6 +50,16 @@ builder.Services.AddInfrastructureServices(builder.Configuration);
 builder.Services.AddExceptionHandlingServices();
 
 var app = builder.Build();
+
+app.MigrateDbContext<WorkoutContext>((context, services) =>
+{
+    var env = services.GetService<IHostEnvironment>();
+    var logger = services.GetService<ILogger<WorkoutContextSeed>>();
+
+    new WorkoutContextSeed()
+        .SeedAsync(context, env, logger)
+        .Wait();
+});
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment() || app.Environment.IsLocal())
