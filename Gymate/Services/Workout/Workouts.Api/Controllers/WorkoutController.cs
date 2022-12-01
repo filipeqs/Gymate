@@ -1,19 +1,27 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Net;
+using Workouts.Application.Models;
+using Workouts.Application.Queries;
 
-namespace Workouts.Api.Controllers
+namespace Workouts.Api.Controllers;
+
+[ApiController]
+[Route("api/v1/[controller]")]
+[ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+public class WorkoutController : ControllerBase
 {
-    [ApiController]
-    [Route("api/v1/[controller]")]
-    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public class WorkoutController : ControllerBase
+    private readonly IWorkoutQueries _workoutQueries;
+
+    public WorkoutController(IWorkoutQueries workoutQueries)
     {
-        [HttpGet]
-        [Authorize]
-        public ActionResult Get()
-        {
-            return Ok("Works!");
-        }
+        _workoutQueries = workoutQueries;
+    }
+
+    [HttpGet]
+    [ProducesResponseType(typeof(IEnumerable<WorkoutDto>), (int)HttpStatusCode.OK)]
+    public async Task<ActionResult<WorkoutDto>> Get()
+    {
+        var workouts = await _workoutQueries.GetWorkoutsAsync();
+        return Ok(workouts);
     }
 }

@@ -32,9 +32,9 @@ public sealed class WorkoutContextSeed
         workoutOne.AddWorkoutExercise(DayOfWeek.Friday, "Squats", 4, 10);
 
         var workoutTwo = new Workout("Workout Two", 2);
-        workoutOne.AddWorkoutExercise(DayOfWeek.Monday, "Push Up", 4, 10);
-        workoutOne.AddWorkoutExercise(DayOfWeek.Wednesday, "Pull Up", 4, 10);
-        workoutOne.AddWorkoutExercise(DayOfWeek.Friday, "Squats", 4, 10);
+        workoutTwo.AddWorkoutExercise(DayOfWeek.Monday, "Push Up", 4, 10);
+        workoutTwo.AddWorkoutExercise(DayOfWeek.Wednesday, "Pull Up", 4, 10);
+        workoutTwo.AddWorkoutExercise(DayOfWeek.Friday, "Squats", 4, 10);
 
         return new List<Workout> { workoutOne, workoutTwo };
     }
