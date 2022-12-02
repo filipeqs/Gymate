@@ -4,7 +4,10 @@ using Exercises.Api.Extensions;
 using Exercises.Domain;
 using Exercises.Infrastructure;
 using Exercises.Infrastructure.Data;
+using HealthChecks.UI.Client;
 using MassTransit;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -65,6 +68,21 @@ builder.Services.AddMassTransit(config =>
     });
 });
 
+builder.Services.AddHealthChecks()
+    .AddCheck("self", () => HealthCheckResult.Healthy())
+    .AddSqlServer(
+        builder.Configuration.GetConnectionString("DefaultConnection"),
+        name: "exercisedb-check",
+        tags: new string[] { "exercisedb" })
+    .AddRedis(
+        builder.Configuration.GetConnectionString("RedisConnection"),
+        name: "redis-check",
+        tags: new string[] { "redis" })
+    .AddRabbitMQ(
+        builder.Configuration["EventBusSettings:HostAddress"],
+        name: "exercise-rabitmqbus-check",
+        tags: new string[] { "rabbitmqbus" });
+
 var app = builder.Build();
 
 app.MigrateDbContext<ExerciseContext>((context, services) =>
@@ -83,6 +101,11 @@ if (app.Environment.IsDevelopment() || app.Environment.IsLocal())
     app.UseSwagger();
     app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Exercise.API v1"));
 }
+
+app.MapHealthChecks("/hc", new HealthCheckOptions()
+{
+    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+});
 
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 

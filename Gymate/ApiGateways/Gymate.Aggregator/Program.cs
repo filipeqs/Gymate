@@ -1,6 +1,10 @@
 using Gymate.Aggregator.Infrastructure;
 using Gymate.Aggregator.Interfaces;
 using Gymate.Aggregator.Services;
+using HealthChecks.UI.Client;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -62,6 +66,13 @@ builder.Services.AddHttpClient<IWorkoutService, WorkoutService>(client =>
     client.BaseAddress = new Uri(builder.Configuration["Urls:Workout"]);
 });
 
+builder.Services.AddHealthChecks()
+    .AddCheck("self", () => HealthCheckResult.Healthy())
+    .AddUrlGroup(new Uri(builder.Configuration["Services:ExerciseUrlHC"]), 
+        name: "exerciseapi-check", tags: new string[] { "exerciseapi" })
+    .AddUrlGroup(new Uri(builder.Configuration["Services:WorkoutUrlHC"]), 
+        name: "workoutapi-check", tags: new string[] { "workoutapi" });
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -70,6 +81,11 @@ if (app.Environment.IsDevelopment() || app.Environment.EnvironmentName == "Local
     app.UseSwagger();
     app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Gymate.Aggregator v1"));
 }
+
+app.MapHealthChecks("/hc", new HealthCheckOptions()
+{
+    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+});
 
 app.UseAuthentication();
 app.UseAuthorization();

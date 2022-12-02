@@ -1,7 +1,10 @@
 using EventBus.Messages.Common;
 using ExceptionHandling.Extensions;
 using ExceptionHandling.Middleware;
+using HealthChecks.UI.Client;
 using MassTransit;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.OpenApi.Models;
 using Workouts.Api.EventBusConsumer;
 using Workouts.Api.Extensions;
@@ -51,6 +54,13 @@ builder.Services.AddInfrastructureServices(builder.Configuration);
 
 builder.Services.AddExceptionHandlingServices();
 
+builder.Services.AddHealthChecks()
+    .AddCheck("self", () => HealthCheckResult.Healthy())
+    .AddSqlServer(
+        builder.Configuration.GetConnectionString("DefaultConnection"),
+        name: "workoutdb-check",
+        tags: new string[] { "workoutdb" });
+
 var app = builder.Build();
 
 app.MigrateDbContext<WorkoutContext>((context, services) =>
@@ -69,6 +79,11 @@ if (app.Environment.IsDevelopment() || app.Environment.IsLocal())
     app.UseSwagger();
     app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Workout.API v1"));
 }
+
+app.MapHealthChecks("/hc", new HealthCheckOptions()
+{
+    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+});
 
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 
