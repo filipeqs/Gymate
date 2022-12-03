@@ -17,17 +17,21 @@ namespace Exercises.Api.Controllers
     public class ExercisesController : BaseController
     {
         private readonly IMediator _mediator;
+        private ILogger<ExercisesController> _logger;
 
-        public ExercisesController(IMediator mediator)
+        public ExercisesController(IMediator mediator, ILogger<ExercisesController> logger)
         {
             _mediator = mediator;
+            _logger = logger;
         }
 
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<ExerciseDetailsDto>), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<IEnumerable<ExerciseDetailsDto>>> GetAllExercises()
         {
+            _logger.LogInformation("Getting exercises");
             var exercises = await _mediator.Send(new GetExerciseListQuery());
+
             return Ok(exercises);
         }
 

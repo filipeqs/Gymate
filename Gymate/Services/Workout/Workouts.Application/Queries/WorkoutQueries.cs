@@ -29,4 +29,55 @@ public sealed class WorkoutQueries : IWorkoutQueries
                 ON w.Id = we.WorkoutId"
             );
     }
+
+    public async Task<dynamic> GetWorkoutsForStudentAsync(int studentId)
+    {
+        using var connection = new SqlConnection(_connectionString);
+        connection.Open();
+
+        var result = await connection.QueryAsync<dynamic>(
+            $@"SELECT Title, FirstName, LastName, DayOfWeek, Name, Sets, Reps
+            FROM Workouts w
+            LEFT JOIN Students s
+            ON s.Id = w.StudentId
+            LEFT JOIN WorkoutExercise we
+            ON we.WorkoutId = w.Id
+            WHERE w.StudentId = @studentId",
+            new { studentId }
+            );
+
+        return MapStudentWorkoutItems(result);
+    }
+
+    private List<StudentWorkoutDto> MapStudentWorkoutItems(IEnumerable<dynamic> result)
+    {
+        var groupedResult = result.GroupBy(q => new { q.Title, q.DayOfWeek }).ToList();
+
+        var workouts = new List<StudentWorkoutDto>();
+        foreach (var workoutResult in groupedResult)
+        {
+            var workout = new StudentWorkoutDto
+            {
+                Title = workoutResult.Key.Title,
+                DayOfWeek = workoutResult.Key.DayOfWeek,
+            };
+            workout.Exercises = new List<ExerciseDto>();
+
+            foreach (var exerciseResult in workoutResult)
+            {
+                var exercise = new ExerciseDto
+                {
+                    Name = exerciseResult.Name,
+                    Sets = exerciseResult.Sets,
+                    Reps = exerciseResult.Reps
+                };
+
+                workout.Exercises.Add(exercise);
+            }
+
+            workouts.Add(workout);
+        }
+
+        return workouts;
+    }
 }
