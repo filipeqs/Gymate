@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.OpenApi.Models;
+using Polly;
+using Polly.Extensions.Http;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -59,12 +61,14 @@ builder.Services.AddAuthentication("Bearer")
 builder.Services.AddHttpClient<IExerciseService, ExerciseService>(client =>
 {
     client.BaseAddress = new Uri(builder.Configuration["Urls:Exercise"]);
-});
+}).AddPolicyHandler(GetRetryProlicy())
+.AddPolicyHandler(GetCircuitBreakerPolicy());
 
 builder.Services.AddHttpClient<IWorkoutService, WorkoutService>(client =>
 {
     client.BaseAddress = new Uri(builder.Configuration["Urls:Workout"]);
-});
+}).AddPolicyHandler(GetRetryProlicy())
+.AddPolicyHandler(GetCircuitBreakerPolicy()); ;
 
 builder.Services.AddHealthChecks()
     .AddCheck("self", () => HealthCheckResult.Healthy())
@@ -93,3 +97,26 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+IAsyncPolicy<HttpResponseMessage> GetRetryProlicy()
+{
+    return HttpPolicyExtensions
+        .HandleTransientHttpError()
+        .WaitAndRetryAsync(
+            retryCount: 5,
+            sleepDurationProvider: retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)),
+            onRetry: (exception, retryCount, context) =>
+            {
+                //Log
+            });
+}
+
+IAsyncPolicy<HttpResponseMessage> GetCircuitBreakerPolicy()
+{
+    return HttpPolicyExtensions
+        .HandleTransientHttpError()
+        .CircuitBreakerAsync(
+            handledEventsAllowedBeforeBreaking: 5,
+            durationOfBreak: TimeSpan.FromSeconds(30)
+        );
+}
