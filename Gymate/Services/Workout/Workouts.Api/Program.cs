@@ -1,3 +1,4 @@
+using Common.Logging;
 using EventBus.Messages.Common;
 using ExceptionHandling.Extensions;
 using ExceptionHandling.Middleware;
@@ -6,6 +7,7 @@ using MassTransit;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.OpenApi.Models;
+using Serilog;
 using Workouts.Api.EventBusConsumer;
 using Workouts.Api.Extensions;
 using Workouts.Application;
@@ -15,6 +17,8 @@ using Workouts.Infrastructure.Data;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+builder.Host.UseSerilog(SeriLogger.Configure);
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
