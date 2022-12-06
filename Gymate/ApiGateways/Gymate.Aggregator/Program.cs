@@ -1,9 +1,9 @@
+using Common.Logging;
 using Gymate.Aggregator.Infrastructure;
 using Gymate.Aggregator.Interfaces;
 using Gymate.Aggregator.Services;
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.OpenApi.Models;
 using Polly;
@@ -58,16 +58,20 @@ builder.Services.AddAuthentication("Bearer")
     options.RequireHttpsMetadata = false;
 });
 
+builder.Services.AddTransient<LoggingDelegatingHandler>();
+
 builder.Services.AddHttpClient<IExerciseService, ExerciseService>(client =>
 {
     client.BaseAddress = new Uri(builder.Configuration["Urls:Exercise"]);
-}).AddPolicyHandler(GetRetryProlicy())
+}).AddHttpMessageHandler<LoggingDelegatingHandler>()
+.AddPolicyHandler(GetRetryProlicy())
 .AddPolicyHandler(GetCircuitBreakerPolicy());
 
 builder.Services.AddHttpClient<IWorkoutService, WorkoutService>(client =>
 {
     client.BaseAddress = new Uri(builder.Configuration["Urls:Workout"]);
-}).AddPolicyHandler(GetRetryProlicy())
+}).AddHttpMessageHandler<LoggingDelegatingHandler>()
+.AddPolicyHandler(GetRetryProlicy())
 .AddPolicyHandler(GetCircuitBreakerPolicy()); ;
 
 builder.Services.AddHealthChecks()
