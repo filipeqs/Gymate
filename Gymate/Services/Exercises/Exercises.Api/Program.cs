@@ -56,7 +56,7 @@ builder.Services.AddAuthentication("Bearer")
 .AddIdentityServerAuthentication("Bearer", options =>
 {
     options.ApiName = "ExercisesAPI";
-    options.Authority = builder.Configuration.GetValue<string>("IdentityServerApi");
+    options.Authority = builder.Configuration.GetValue<string>("Urls:IdentityServerApi");
     options.RequireHttpsMetadata = false;
 });
 

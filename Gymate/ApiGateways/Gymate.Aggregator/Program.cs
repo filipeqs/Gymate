@@ -57,7 +57,7 @@ builder.Services.AddAuthentication("Bearer")
 .AddIdentityServerAuthentication("Bearer", options =>
 {
     options.ApiName = "GymateAggregator";
-    options.Authority = builder.Configuration.GetValue<string>("IdentityServerApi");
+    options.Authority = builder.Configuration.GetValue<string>("Urls:IdentityServerApi");
     options.RequireHttpsMetadata = false;
 });
 
@@ -79,9 +79,9 @@ builder.Services.AddHttpClient<IWorkoutService, WorkoutService>(client =>
 
 builder.Services.AddHealthChecks()
     .AddCheck("self", () => HealthCheckResult.Healthy())
-    .AddUrlGroup(new Uri(builder.Configuration["Services:ExerciseUrlHC"]), 
+    .AddUrlGroup(new Uri($"{builder.Configuration["Urls:Exercise"]}/hc"), 
         name: "exerciseapi-check", tags: new string[] { "exerciseapi" })
-    .AddUrlGroup(new Uri(builder.Configuration["Services:WorkoutUrlHC"]), 
+    .AddUrlGroup(new Uri($"{builder.Configuration["Urls:Workout"]}/hc"), 
         name: "workoutapi-check", tags: new string[] { "workoutapi" });
 
 var app = builder.Build();

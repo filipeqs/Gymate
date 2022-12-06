@@ -79,6 +79,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - "ConnectionStrings:DefaultConnection=Server=gymatedb;Database=GymateExerciseDb;User Id=sa;Password=SwN12345678;"
       - "ConnectionStrings:RedisConnection=cachedb:6379"
+      - "Urls:IdentityServerApi=http://identityserver.api:80"
       - "EventBusSettings:HostAddress=amqp://guest:guest@rabbitmq:5672"
     depends_on:
       - gymatedb
@@ -91,6 +92,7 @@ services:
     container_name: workout.api
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
+      - "Urls:IdentityServerApi=http://identityserver.api:80"
       - "EventBusSettings:HostAddress=amqp://guest:guest@rabbitmq:5672"
     depends_on:
       - rabbitmq
