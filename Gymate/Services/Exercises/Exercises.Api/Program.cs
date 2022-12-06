@@ -1,3 +1,4 @@
+using Common.Logging;
 using ExceptionHandling.Extensions;
 using ExceptionHandling.Middleware;
 using Exercises.Api.Extensions;
@@ -9,10 +10,13 @@ using MassTransit;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.OpenApi.Models;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+builder.Host.UseSerilog(SeriLogger.Configure);
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

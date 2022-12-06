@@ -11,15 +11,6 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - portainer_data:/data
 
-  ocelotapigw:
-    container_name: ocelotapigw
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-    depends_on:
-      - exercises.api
-    ports:
-      - "8010:80"
-
   gymatedb:
     container_name: gymatedb
     environment:
@@ -41,6 +32,36 @@ services:
     ports:
       - "5672:5672"
       - "15672:15672"
+
+  elasticsearch:
+    container_name: elasticsearch
+    environment:
+      - xpack.monitoring.enabled=true
+      - xpack.watcher.enabled=false
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - discovery.type=single-node
+    ports:
+      - "9200:9200"
+    volumes:
+      - elasticsearch-data:/usr/share/elasticsearch/data
+
+  kibana:
+    container_name: kibana
+    environment:
+      - ELASTICSEARCH_URL=http://elasticsearch:9200
+    depends_on:
+      - elasticsearch
+    ports:
+      - "5601:5601"
+
+  ocelotapigw:
+    container_name: ocelotapigw
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    depends_on:
+      - exercises.api
+    ports:
+      - "8010:80"
 
   identityserver.api:
     container_name: identityserver.api
