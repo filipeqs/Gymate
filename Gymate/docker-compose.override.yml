@@ -58,6 +58,7 @@ services:
     container_name: ocelotapigw
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
+      - "Urls:IdentityServerApi=http://identityserver.api:80"
     depends_on:
       - exercises.api
     ports:

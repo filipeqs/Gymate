@@ -10,7 +10,7 @@ var authenticationProviderKey = "ExercisesApiKey";
 builder.Services.AddAuthentication()
 .AddJwtBearer(authenticationProviderKey, options =>
 {
-    options.Authority = builder.Configuration.GetValue<string>("IdentityServerApi");
+    options.Authority = builder.Configuration.GetValue<string>("Urls:IdentityServerApi");
     options.RequireHttpsMetadata = false;
     options.TokenValidationParameters = new TokenValidationParameters
     {
