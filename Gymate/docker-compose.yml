@@ -41,7 +41,7 @@ services:
     image: ${DOCKER_REGISTRY-}workoutapi
     build:
       context: .
-      dockerfile: Services\Workout\Workout.Api\Dockerfile
+      dockerfile: Services\Workout\Workouts.Api\Dockerfile
 
 volumes:
   portainer_data:

@@ -69,8 +69,10 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - "ConnectionStrings:DefaultConnection=Server=gymatedb;Database=GymateIdentityDb;User Id=sa;Password=SwN12345678;"
+      - "ConnectionStrings:ElasticSearchConnection=http://elasticsearch:9200"
     depends_on:
       - gymatedb
+      - elasticsearch
     ports:
       - "8050:80"
 
@@ -79,6 +81,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - "ConnectionStrings:DefaultConnection=Server=gymatedb;Database=GymateExerciseDb;User Id=sa;Password=SwN12345678;"
+      - "ConnectionStrings:ElasticSearchConnection=http://elasticsearch:9200"
       - "ConnectionStrings:RedisConnection=cachedb:6379"
       - "Urls:IdentityServerApi=http://identityserver.api:80"
       - "EventBusSettings:HostAddress=amqp://guest:guest@rabbitmq:5672"
@@ -86,6 +89,7 @@ services:
       - gymatedb
       - cachedb
       - rabbitmq
+      - elasticsearch
     ports:
       - "8000:80"
 
@@ -93,9 +97,13 @@ services:
     container_name: workout.api
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
+      - "ConnectionStrings:DefaultConnection=Server=gymatedb;Database=GymateWorkoutDb;User Id=sa;Password=SwN12345678;"
+      - "ConnectionStrings:ElasticSearchConnection=http://elasticsearch:9200"
       - "Urls:IdentityServerApi=http://identityserver.api:80"
       - "EventBusSettings:HostAddress=amqp://guest:guest@rabbitmq:5672"
     depends_on:
+      - gymatedb
       - rabbitmq
+      - elasticsearch
     ports:
       - "8001:80"
