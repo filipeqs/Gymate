@@ -114,7 +114,7 @@ IAsyncPolicy<HttpResponseMessage> GetRetryProlicy()
             sleepDurationProvider: retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)),
             onRetry: (exception, retryCount, context) =>
             {
-                //Log
+                Log.Error($"Retry {retryCount} of {context.PolicyKey} at {context.OperationKey}, due to: {exception}");
             });
 }
 
