@@ -63,7 +63,11 @@ builder.Services.AddHealthChecks()
     .AddSqlServer(
         builder.Configuration.GetConnectionString("DefaultConnection"),
         name: "workoutdb-check",
-        tags: new string[] { "workoutdb" });
+        tags: new string[] { "workoutdb" })
+    .AddElasticsearch(
+        builder.Configuration.GetConnectionString("ElasticSearchConnection"),
+        name: "elasticsearch-check",
+        tags: new string[] { "elasticsearch" });
 
 var app = builder.Build();
 

@@ -107,3 +107,33 @@ services:
       - elasticsearch
     ports:
       - "8001:80"
+
+  webstatus:
+    container_name: webstatus
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - HealthChecksUI__HealthChecks__0__Name=Exercise Health Check
+      - HealthChecksUI__HealthChecks__0__Uri=http://exercises.api/hc
+      - HealthChecksUI__HealthChecks__1__Name=Workout Health Check
+      - HealthChecksUI__HealthChecks__1__Uri=http://workout.api/hc
+      - HealthChecksUI__HealthChecks__2__Name=Aggregator Health Check
+      - HealthChecksUI__HealthChecks__2__Uri=http://aggregator.api/hc
+    ports:
+      - "5000:80"
+
+  gymate.aggregator:
+    container_name: aggregator.api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "ConnectionStrings:ElasticSearchConnection=http://elasticsearch:9200"
+      - "Urls:Exercise=http://exercises.api"
+      - "Urls:Workout=http://workout.api"
+      - "Urls:IdentityServerApi=http://identityserver.api:80"
+    depends_on:
+      - identityserver.api
+      - exercises.api
+      - workout.api
+      - elasticsearch
+    ports:
+      - "5287:80"
+

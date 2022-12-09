@@ -82,6 +82,10 @@ builder.Services.AddHealthChecks()
         builder.Configuration.GetConnectionString("RedisConnection"),
         name: "redis-check",
         tags: new string[] { "redis" })
+    .AddElasticsearch(
+        builder.Configuration.GetConnectionString("ElasticSearchConnection"),
+        name: "elasticsearch-check",
+        tags: new string[] { "elasticsearch" })
     .AddRabbitMQ(
         builder.Configuration["EventBusSettings:HostAddress"],
         name: "exercise-rabitmqbus-check",

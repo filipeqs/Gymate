@@ -43,6 +43,19 @@ services:
       context: .
       dockerfile: Services\Workout\Workouts.Api\Dockerfile
 
+  webstatus:
+    image: ${DOCKER_REGISTRY-}webstatus
+    build:
+      context: .
+      dockerfile: WebApps/WebStatus/Dockerfile
+
+  gymate.aggregator:
+    image: ${DOCKER_REGISTRY-}gymateaggregator
+    build:
+      context: .
+      dockerfile: ApiGateways/Gymate.Aggregator/Dockerfile
+
 volumes:
   portainer_data:
   elasticsearch-data:
+
