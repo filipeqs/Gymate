@@ -53,8 +53,8 @@ builder.Services.AddMassTransit(config =>
     });
 });
 
-builder.Services.AddApplicationServices();
 builder.Services.AddInfrastructureServices(builder.Configuration);
+builder.Services.AddApplicationServices();
 
 builder.Services.AddExceptionHandlingServices();
 

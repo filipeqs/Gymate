@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
-using Workouts.Application.Models;
+using Workouts.Application.Commands;
 using Workouts.Application.Queries;
 
 namespace Workouts.Api.Controllers;
@@ -11,26 +11,37 @@ namespace Workouts.Api.Controllers;
 [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
 public class WorkoutController : ControllerBase
 {
+    private readonly IMediator _mediator;
     private readonly IWorkoutQueries _workoutQueries;
 
-    public WorkoutController(IWorkoutQueries workoutQueries)
+    public WorkoutController(
+        IMediator mediator,
+        IWorkoutQueries workoutQueries)
     {
+        _mediator = mediator;
         _workoutQueries = workoutQueries;
     }
 
     [HttpGet]
-    [ProducesResponseType(typeof(IEnumerable<WorkoutDto>), (int)HttpStatusCode.OK)]
-    public async Task<ActionResult<WorkoutDto>> GetAll()
+    [ProducesResponseType(typeof(IEnumerable<dynamic>), (int)HttpStatusCode.OK)]
+    public async Task<ActionResult<dynamic>> GetAll()
     {
         var workouts = await _workoutQueries.GetWorkoutsAsync();
         return Ok(workouts);
     }
 
     [HttpGet("{studentId}")]
-    public async Task<ActionResult> GetWorkoutsForStudent(int studentId)
+    public async Task<ActionResult<dynamic>> GetWorkoutsForStudent(int studentId)
     {
         var workouts = await _workoutQueries.GetWorkoutsForStudentAsync(studentId);
 
         return Ok(workouts);
+    }
+
+    [HttpPost]
+    public async Task<ActionResult> Create([FromBody] CreateWorkoutCommand command)
+    {
+        var result = await _mediator.Send(command);
+        return Ok();
     }
 }

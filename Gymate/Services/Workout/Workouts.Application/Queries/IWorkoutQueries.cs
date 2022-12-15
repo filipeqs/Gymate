@@ -1,9 +1,7 @@
-﻿using Workouts.Application.Models;
-
-namespace Workouts.Application.Queries;
+﻿namespace Workouts.Application.Queries;
 
 public interface IWorkoutQueries
 {
-    Task<IEnumerable<WorkoutDto>> GetWorkoutsAsync();
+    Task<IEnumerable<dynamic>> GetWorkoutsAsync();
     Task<dynamic> GetWorkoutsForStudentAsync(int studentId);
 }
