@@ -31,17 +31,18 @@ public class WorkoutController : ControllerBase
     }
 
     [HttpGet("{studentId}")]
+    [ProducesResponseType(typeof(IEnumerable<dynamic>), (int)HttpStatusCode.OK)]
     public async Task<ActionResult<dynamic>> GetWorkoutsForStudent(int studentId)
     {
         var workouts = await _workoutQueries.GetWorkoutsForStudentAsync(studentId);
-
         return Ok(workouts);
     }
 
     [HttpPost]
+    [ProducesResponseType(typeof(IEnumerable<dynamic>), (int)HttpStatusCode.OK)]
     public async Task<ActionResult> Create([FromBody] CreateWorkoutCommand command)
     {
-        var result = await _mediator.Send(command);
-        return Ok();
+        var workouts = await _mediator.Send(command);
+        return Ok(workouts);
     }
 }
